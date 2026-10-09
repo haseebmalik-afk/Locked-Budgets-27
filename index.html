@@ -29,6 +29,12 @@ body{
 button{font:inherit; color:inherit; background:none; border:none; cursor:pointer}
 input,select{font:inherit; color:inherit}
 :focus-visible{outline:2px solid var(--cpx); outline-offset:2px; border-radius:4px}
+#zoombar{position:fixed; right:18px; bottom:18px; z-index:55; display:flex; align-items:center; gap:2px;
+  background:var(--nav); color:#fff; border-radius:10px; padding:4px; box-shadow:0 6px 20px rgba(0,0,0,.28)}
+#zoombar button{width:30px; height:30px; border-radius:8px; font-size:1.1rem; font-weight:700; color:#fff; line-height:1}
+#zoombar button:hover{background:rgba(255,255,255,.12)}
+#zoombar .zlbl{min-width:46px; text-align:center; font-size:.76rem; font-weight:700; font-variant-numeric:tabular-nums; cursor:pointer}
+#zoombar .zlbl:hover{color:var(--cpx-mid)}
 
 /* ================= sidebar (CPX) ================= */
 nav{
@@ -173,7 +179,7 @@ table.dt{width:100%; border-collapse:collapse; font-size:.8rem}
 }
 .umw:active{cursor:grabbing}
 .umw.dragging{opacity:.4}
-.umw .umw-name{font-size:.84rem; font-weight:700; letter-spacing:-.01em; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.umw .umw-name{font-size:.84rem; font-weight:700; letter-spacing:-.01em; white-space:normal; overflow-wrap:anywhere}
 .umw .umw-meta{display:flex; align-items:center; gap:7px; justify-content:space-between}
 .umw .umw-lead{display:inline-flex; align-items:center; gap:5px; font-size:.72rem; color:var(--muted); font-weight:600; min-width:0}
 .umw .umw-lead span{overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
@@ -232,7 +238,7 @@ table.dt{width:100%; border-collapse:collapse; font-size:.8rem}
 .tcard.custom.dropping{border-style:solid}
 .tcard > header{padding:14px 16px 4px; display:flex; align-items:flex-start; gap:10px}
 .codewrap{display:flex; align-items:center; gap:5px; min-width:0}
-.code{font-size:1.02rem; font-weight:700; letter-spacing:-.01em; line-height:1.2; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.code{font-size:1.02rem; font-weight:700; letter-spacing:-.01em; line-height:1.2; white-space:normal; overflow-wrap:anywhere; word-break:break-word}
 .rn{border:none; color:var(--faint); font-size:.72rem; padding:2px 5px; border-radius:5px; flex:none; opacity:0; transition:opacity .12s}
 .tcard > header:hover .rn{opacity:1}
 .rn:hover{color:var(--cpx); background:var(--cpx-wash)}
@@ -249,7 +255,7 @@ table.dt{width:100%; border-collapse:collapse; font-size:.8rem}
 .ava{width:21px; height:21px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; flex:none; overflow:hidden}
 .ava svg{width:14px; height:14px}
 .money{text-align:right; white-space:nowrap}
-.money b{display:block; font-size:1.15rem; font-weight:700; letter-spacing:-.01em}
+.money b{display:block; font-size:1.08rem; font-weight:700; letter-spacing:-.01em}
 .money span{font-size:.67rem; color:var(--muted)}
 .delc{border:none; color:var(--faint); font-size:.76rem; padding:2px 7px; border-radius:6px; flex:none; align-self:flex-start}
 .delc:hover{color:var(--red); background:var(--red-lt)}
@@ -541,6 +547,7 @@ aside.tray{
 </div>
 </div><!-- /shell -->
 
+<div id="zoombar" aria-label="Zoom"><button id="zOut" title="Zoom out" aria-label="Zoom out">−</button><span class="zlbl" id="zLbl" title="Reset to 100%">100%</span><button id="zIn" title="Zoom in" aria-label="Zoom in">+</button></div>
 <div id="pop" class="popbase" role="menu"></div>
 <div id="ppl" class="popbase" role="menu"></div>
 
@@ -1861,6 +1868,19 @@ document.getElementById('reset').addEventListener('click', () => {
   render();
 });
 
+/* zoom control */
+let ZOOM = 1;
+function applyZoom(){
+  const c=document.querySelector('.content'); if(c) c.style.zoom = ZOOM;
+  const l=document.getElementById('zLbl'); if(l) l.textContent = Math.round(ZOOM*100)+'%';
+  try{ localStorage.setItem(LS_KEY+'-zoom', String(ZOOM)); }catch(e){}
+}
+function setZoom(z){ ZOOM = Math.min(1.5, Math.max(0.5, Math.round(z*100)/100)); applyZoom(); }
+document.getElementById('zIn').addEventListener('click', ()=>setZoom(ZOOM+0.1));
+document.getElementById('zOut').addEventListener('click', ()=>setZoom(ZOOM-0.1));
+document.getElementById('zLbl').addEventListener('click', ()=>setZoom(1));
+try{ const sz=parseFloat(localStorage.getItem(LS_KEY+'-zoom')); if(sz>=0.5&&sz<=1.5) ZOOM=sz; }catch(e){}
+
 /* boot */
 loadState();
 try{ const sc = localStorage.getItem(LS_KEY+'-ccy'); if(sc==='USD'||sc==='AED') CCY = sc; }catch(e){}
@@ -1869,6 +1889,7 @@ render();
 renderGrowth();
 renderRules();
 renderUmbrella();
+applyZoom();
 if(!lsOk) note('Local save unavailable — use Export');
 else if(Object.keys(state.a).length || Object.keys(state.l).length || state.c.length || state.h.length) note('Restored saved board');
 </script>
