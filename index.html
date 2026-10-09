@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cost Center Ownership — 2026 Baseline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F5F6F8; --card:#FFFFFF; --ink:#1A2230; --muted:#6A7382; --faint:#A6AEBC;
+  --line:#E6E9EF; --line2:#EEF0F4; --thead:#FAFBFC;
+  --cpx:#FA5523; --cpx-mid:#F5915F; --cpx-lt:#FBC4AF; --cpx-wash:#FFF1EC;
+  --green:#12805A; --green-lt:#E4F6ED; --red:#C43B1E; --red-lt:#FDE7E0;
+  --nav:#1E2530; --nav-line:#2A3240; --nav-txt:#B8C0CC; --nav-dim:#6A7383;
+  --dark-band:#1A2230;
+  --c-pay:#FA5523; --c-per:#27405F; --c-sys:#5B6672; --c-dm:#1F6B4A; --c-pro:#1A1F28; --c-msc:#9AA3AE;
+  --shadow:0 1px 3px rgba(26,34,48,.06);
+}
+*{box-sizing:border-box; margin:0; padding:0}
+.shell{display:flex; min-height:100vh; background:var(--bg); max-width:1660px; margin:0 auto;}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--ink);
+  -webkit-font-smoothing:antialiased; font-size:.85rem; line-height:1.45;
+}
+.num{font-variant-numeric:tabular-nums}
+button{font:inherit; color:inherit; background:none; border:none; cursor:pointer}
+input,select{font:inherit; color:inherit}
+:focus-visible{outline:2px solid var(--cpx); outline-offset:2px; border-radius:4px}
+
+/* ================= sidebar (CPX) ================= */
+nav{
+  width:216px; min-width:216px; background:var(--nav); border-right:1px solid var(--nav-line);
+  display:flex; flex-direction:column; position:sticky; top:0; height:100vh;
+}
+nav .brand{display:flex; align-items:center; gap:11px; padding:18px 18px 15px; border-bottom:1px solid var(--nav-line)}
+nav .logo{width:34px; height:34px; background:var(--cpx); border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0}
+nav .logo svg{width:19px; height:19px}
+nav .brand b{font-size:.98rem; font-weight:700; letter-spacing:-.01em; line-height:1.15; color:#fff}
+nav .brand span{font-size:.67rem; color:#8A93A3}
+nav .grp{font-size:.6rem; letter-spacing:.1em; color:var(--nav-dim); padding:15px 18px 5px; text-transform:uppercase; font-weight:600}
+nav button.navlink{
+  display:flex; align-items:center; gap:9px; padding:8px 12px; margin:1px 8px; border-radius:8px;
+  color:var(--nav-txt); font-size:.83rem; font-weight:500; width:auto; text-align:left;
+}
+nav button.navlink:hover{background:rgba(255,255,255,.06); color:#fff}
+nav button.navlink.active{background:var(--cpx); color:#fff; font-weight:600}
+nav .ic{width:16px; text-align:center; flex:none; opacity:.9}
+nav .foot{margin-top:auto; padding:14px 18px; font-size:.65rem; color:var(--nav-dim); line-height:1.6; border-top:1px solid var(--nav-line)}
+nav .foot b{color:#4ADE9C; font-weight:600}
+
+/* ================= content ================= */
+.content{flex:1; min-width:0; padding:20px 26px 70px}
+.content > *{max-width:1420px}
+.hrow{display:flex; align-items:flex-start; gap:14px; flex-wrap:wrap; margin-bottom:14px}
+h1{font-size:1.5rem; font-weight:700; letter-spacing:-.02em}
+.psub{font-size:.76rem; color:var(--muted); margin-top:3px}
+.hrow .grow{flex:1}
+.hrow input[type=search]{
+  background:var(--card); border:1px solid var(--line); border-radius:9px;
+  padding:8px 12px; width:230px; font-size:.83rem; box-shadow:var(--shadow);
+}
+.hrow input::placeholder{color:var(--faint)}
+
+.card{background:var(--card); border:1px solid var(--line); border-radius:13px; padding:18px; min-width:0; box-shadow:var(--shadow)}
+.card h2{font-size:1.05rem; font-weight:600; letter-spacing:-.01em}
+.csub{font-size:.75rem; color:var(--muted); margin-top:2px}
+.gl h3{font-size:.82rem; font-weight:700; color:var(--cpx); margin:16px 0 7px; text-transform:uppercase; letter-spacing:.03em}
+.glgrid{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:6px}
+@media(max-width:800px){ .glgrid{grid-template-columns:1fr; gap:0} }
+.gl ul{list-style:none; margin:0; padding:0}
+.gl li{position:relative; padding:5px 0 5px 20px; font-size:.86rem; line-height:1.5; border-bottom:1px solid var(--line2)}
+.gl li:before{content:"–"; position:absolute; left:4px; color:var(--cpx); font-weight:700}
+.gl li b{font-weight:700}
+.glnote{margin-top:20px; background:var(--cpx-wash); border:1px solid var(--cpx-lt); border-radius:10px; padding:13px 16px; font-size:.84rem; line-height:1.5}
+.glhint{margin-top:14px; font-size:.74rem; color:var(--muted); background:var(--thead); border:1px dashed var(--line); border-radius:8px; padding:8px 12px}
+.gl.editing [contenteditable]{outline:1px dashed var(--cpx-lt); border-radius:4px; padding:1px 3px; min-width:20px}
+.gl.editing [contenteditable]:focus{outline:1.5px solid var(--cpx); background:var(--cpx-wash)}
+.gl .glli{display:flex; gap:6px; align-items:flex-start}
+.gl .glli .xbtn,.gl .secx{display:none; border:none; color:var(--faint); font-size:.72rem; padding:0 4px; border-radius:4px; flex:none; margin-top:5px}
+.gl.editing .glli .xbtn,.gl.editing .secx{display:inline-block}
+.gl .glli .xbtn:hover,.gl .secx:hover{color:var(--red); background:var(--red-lt)}
+.gl .addbtn{display:none; font-size:.73rem; font-weight:600; color:var(--cpx); padding:4px 2px}
+.gl.editing .addbtn{display:inline-block}
+.gl .addbtn:hover{text-decoration:underline}
+.gl .sechead{display:flex; align-items:center; gap:6px}
+
+.chip{display:inline-flex; align-items:center; gap:4px; font-size:.68rem; font-weight:600; padding:2px 9px; border-radius:999px; white-space:nowrap}
+.chip.g{background:var(--green-lt); color:var(--green)}
+.chip.r{background:var(--red-lt); color:var(--red)}
+.chip.n{background:var(--line2); color:var(--muted)}
+.chip.o{background:var(--cpx-wash); color:var(--cpx)}
+
+/* KPI row */
+.kpis{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:13px; margin-bottom:14px}
+.kpi .lbl{font-size:.73rem; color:var(--muted); font-weight:500}
+.kpi .big{font-size:1.85rem; font-weight:700; letter-spacing:-.02em; line-height:1.12; margin-top:6px}
+.kpi .big small{font-size:.78rem; font-weight:500; color:var(--muted)}
+.kpi .sub{margin-top:8px}
+.kpi.hot .big{color:var(--cpx)}
+
+.view{display:none}
+.view.on{display:block}
+
+/* horizontal bar rows */
+.legend{display:flex; gap:16px; flex-wrap:wrap; margin:10px 0 12px; font-size:.72rem; color:var(--muted); font-weight:500}
+.legend span{display:flex; align-items:center; gap:6px}
+.legend i{width:9px; height:9px; border-radius:3px; display:inline-block}
+.crow{
+  display:grid; grid-template-columns:120px 1fr 76px; gap:12px; align-items:center;
+  padding:5px 6px; cursor:pointer; border-radius:8px;
+}
+.crow:hover{background:var(--cpx-wash)}
+.crow .cl{font-size:.86rem; font-weight:600; text-align:right; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.crow .cv{font-size:.86rem; font-weight:700; color:var(--muted)}
+.cbar{height:20px; border-radius:5px; overflow:hidden; display:flex; background:var(--line2)}
+.cbar i{height:100%; display:block; transition:width .35s ease}
+.crow.grp .cl{color:var(--cpx)}
+.crow.static{cursor:default}
+.crow.big .cl{font-size:.92rem}
+.crow.big .cbar{height:24px}
+.totband{
+  margin-top:12px; background:var(--dark-band); color:#fff; border-radius:9px;
+  padding:11px 16px; display:flex; align-items:center; gap:12px; font-weight:600; font-size:.88rem;
+}
+.totband .sub{color:#98A2B3; font-weight:500; font-size:.72rem}
+.totband .sp{flex:1}
+@media (prefers-reduced-motion:reduce){ .cbar i{transition:none !important} }
+
+/* stacked column chart */
+.colchart svg{width:100%; height:auto; display:block; margin-top:12px}
+
+/* run-rate line chart */
+.lchart{margin-top:14px; width:100%}
+.lchart svg{width:100%; height:auto; display:block}
+.ltog{display:flex; gap:8px; flex-wrap:wrap; margin-top:12px}
+.ltog button{
+  display:inline-flex; align-items:center; gap:6px; font-size:.72rem; font-weight:600;
+  border:1px solid var(--line); border-radius:999px; padding:3px 10px; color:var(--muted); background:var(--card);
+}
+.ltog button i{width:9px; height:9px; border-radius:2px; display:inline-block; background:var(--faint)}
+.ltog button.on{border-color:transparent; color:var(--ink); background:var(--cpx-wash)}
+.ltog button.on i{background:var(--tc)}
+
+/* register table */
+.tblwrap{overflow-x:auto; margin-top:12px}
+table.dt{width:100%; border-collapse:collapse; font-size:.8rem}
+.dt th,.dt td{padding:7px 11px; text-align:right; white-space:nowrap; border-bottom:1px solid var(--line2)}
+.dt th{font-size:.66rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; background:var(--thead)}
+.dt th:first-child,.dt td:first-child{text-align:left}
+.dt th.l,.dt td.l{text-align:left}
+.dt tbody tr:hover td{background:var(--cpx-wash)}
+.dt tfoot td{background:var(--dark-band); color:#fff; font-weight:600; border-bottom:none; padding:10px 11px}
+.dt tfoot td .sub{color:#98A2B3; font-weight:500; font-size:.68rem}
+.dt tfoot .chip{background:rgba(255,255,255,.14); color:#FDD9C8}
+.leadcell{display:inline-flex; align-items:center; gap:7px; font-weight:600}
+
+/* ================= allocation board ================= */
+.boardwrap{display:grid; grid-template-columns:1fr 300px; gap:16px; align-items:start}
+.bgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(232px,1fr)); gap:13px}
+
+/* umbrella view */
+.umtray{background:var(--card); border:1px dashed var(--cpx-lt); border-radius:12px; box-shadow:var(--shadow); margin-bottom:16px; overflow:hidden}
+.umtray.dropping{border-style:solid; border-color:var(--cpx); box-shadow:0 0 0 2px var(--cpx-lt)}
+.umtray-h{padding:9px 14px; font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); background:var(--thead); border-bottom:1px solid var(--line)}
+.umtray-body{display:flex; flex-wrap:wrap; gap:9px; padding:12px 14px; min-height:54px}
+.umw{
+  display:flex; flex-direction:column; gap:3px; min-width:150px; max-width:210px;
+  border:1px solid var(--line); border-radius:10px; padding:9px 11px; background:var(--card);
+  cursor:grab; box-shadow:var(--shadow);
+}
+.umw:active{cursor:grabbing}
+.umw.dragging{opacity:.4}
+.umw .umw-name{font-size:.84rem; font-weight:700; letter-spacing:-.01em; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.umw .umw-meta{display:flex; align-items:center; gap:7px; justify-content:space-between}
+.umw .umw-lead{display:inline-flex; align-items:center; gap:5px; font-size:.72rem; color:var(--muted); font-weight:600; min-width:0}
+.umw .umw-lead span{overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.umw .umw-tot{font-size:.9rem; font-weight:800; white-space:nowrap}
+.umw .ava{width:18px; height:18px}
+.umw .ava svg{width:12px; height:12px}
+
+.umb{background:var(--card); border:1px solid var(--line); border-top:3px solid var(--cpx); border-radius:12px; box-shadow:var(--shadow); margin-bottom:16px; overflow:hidden}
+.umb.dropping{border-color:var(--cpx); box-shadow:0 0 0 2px var(--cpx-lt)}
+.umb .um-del{position:absolute; top:8px; right:8px; border:none; color:var(--faint); font-size:.82rem; padding:2px 7px; border-radius:6px; z-index:3}
+.umb .um-del:hover{color:var(--red); background:var(--red-lt)}
+
+/* org-chart tree */
+.orgwrap{overflow-x:auto; padding:18px 16px 8px}
+.tree{display:inline-block; min-width:100%; text-align:center}
+.tree ul{position:relative; padding-top:22px; display:flex; justify-content:center; margin:0; list-style:none}
+.tree li{list-style:none; position:relative; padding:22px 10px 0; display:flex; flex-direction:column; align-items:center}
+/* connectors */
+.tree li::before,.tree li::after{content:''; position:absolute; top:0; right:50%; border-top:2px solid var(--line2); width:50%; height:22px}
+.tree li::after{right:auto; left:50%; border-left:2px solid var(--line2)}
+.tree li:only-child::before,.tree li:only-child::after{display:none}
+.tree li:only-child{padding-top:0}
+.tree li:first-child::before,.tree li:last-child::after{border:0 none}
+.tree li:last-child::before{border-right:2px solid var(--line2); border-radius:0 7px 0 0}
+.tree li:first-child::after{border-radius:7px 0 0 0}
+.tree ul ul::before{content:''; position:absolute; top:0; left:50%; border-left:2px solid var(--line2); width:0; height:22px}
+.tree > ul{padding-top:0}
+
+/* parent (master) node */
+.umnode{display:inline-flex; flex-direction:column; gap:4px; text-align:left; border:1px solid var(--line); border-radius:11px; padding:11px 14px; background:var(--card); box-shadow:var(--shadow); min-width:190px}
+.umnode.parent{border:1.5px solid var(--cpx); background:var(--cpx-wash); min-width:230px}
+.umnode.parent .um-master{width:100%; border:none; background:transparent; font-size:1.05rem; font-weight:800; letter-spacing:-.01em; color:var(--ink); padding:0}
+.umnode.parent .um-master:focus{outline:none}
+.umnode.parent .um-master::placeholder{color:var(--cpx-mid); font-weight:700}
+.umnode.parent .um-mgr{width:100%; border:1px dashed var(--cpx-lt); border-radius:7px; background:rgba(255,255,255,.5); font-size:.76rem; font-weight:600; padding:4px 8px; color:var(--ink)}
+.umnode.parent .um-mgr:focus{outline:none; border-color:var(--cpx); border-style:solid}
+.umnode.parent .um-mgr::placeholder{color:var(--cpx-mid)}
+.umnode.parent .um-ptot{font-size:.72rem; color:var(--cpx); font-weight:700}
+
+/* child (cost center) node — reuse umw look */
+.tree .umw{min-width:170px; max-width:210px; text-align:left}
+.umempty{border:1.5px dashed var(--cpx-lt); border-radius:10px; padding:14px 18px; color:var(--faint); font-size:.76rem; background:var(--thead)}
+
+.umb .um-chart{padding:8px 16px 16px; border-top:1px solid var(--line); background:var(--thead)}
+.umb .um-chart .ctitle{font-size:.66rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); margin-bottom:8px}
+.umaddcard{border:1.5px dashed var(--cpx-lt); border-radius:12px; min-height:72px; display:flex; align-items:center; justify-content:center; color:var(--cpx); font-weight:600; font-size:.84rem; cursor:pointer; background:var(--cpx-wash); margin-bottom:16px}
+.umaddcard:hover{border-color:var(--cpx)}
+.tcard{
+  background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden;
+  box-shadow:var(--shadow); transition:border-color .12s, box-shadow .15s, transform .15s;
+}
+.tcard:hover{box-shadow:0 4px 14px rgba(26,34,48,.09)}
+.tcard.dropping{border-color:var(--cpx); box-shadow:0 0 0 2px var(--cpx-lt)}
+.tcard.dim{opacity:.35}
+.tcard.custom{border-style:dashed; border-color:var(--cpx-mid)}
+.tcard.custom.dropping{border-style:solid}
+.tcard > header{padding:14px 16px 4px; display:flex; align-items:flex-start; gap:10px}
+.codewrap{display:flex; align-items:center; gap:5px; min-width:0}
+.code{font-size:1.02rem; font-weight:700; letter-spacing:-.01em; line-height:1.2; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.rn{border:none; color:var(--faint); font-size:.72rem; padding:2px 5px; border-radius:5px; flex:none; opacity:0; transition:opacity .12s}
+.tcard > header:hover .rn{opacity:1}
+.rn:hover{color:var(--cpx); background:var(--cpx-wash)}
+.code-edit{width:100%; border:1px solid var(--cpx); border-radius:6px; padding:2px 7px; font-size:.98rem; font-weight:700; background:var(--card)}
+.leadbtn{
+  display:inline-flex; align-items:center; gap:7px; max-width:100%;
+  border:1px solid var(--line); border-radius:16px; padding:3px 10px 3px 4px;
+  font-size:.74rem; font-weight:600; background:var(--card);
+}
+.leadbtn:hover{border-color:var(--cpx); color:var(--cpx)}
+.leadbtn.empty{padding:4px 10px; color:var(--muted); border-style:dashed; font-weight:500}
+.leadbtn.empty:hover{color:var(--cpx)}
+.leadbtn span{overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.ava{width:21px; height:21px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; flex:none; overflow:hidden}
+.ava svg{width:14px; height:14px}
+.money{text-align:right; white-space:nowrap}
+.money b{display:block; font-size:1.15rem; font-weight:700; letter-spacing:-.01em}
+.money span{font-size:.67rem; color:var(--muted)}
+.delc{border:none; color:var(--faint); font-size:.76rem; padding:2px 7px; border-radius:6px; flex:none; align-self:flex-start}
+.delc:hover{color:var(--red); background:var(--red-lt)}
+.mini{display:flex; height:5px; border-radius:3px; overflow:hidden; margin:10px 16px 0; background:var(--line2)}
+.mini i{display:block; height:100%}
+
+.cloud{display:flex; flex-wrap:wrap; gap:7px; padding:12px 16px 14px}
+.cloud.sum{padding-bottom:12px}
+.pill{
+  display:inline-flex; align-items:center; gap:6px; max-width:100%;
+  border:1px solid var(--line); background:var(--thead); border-radius:999px;
+  padding:4px 11px; font-size:.74rem; font-weight:600; cursor:grab; user-select:none;
+}
+.pill:active{cursor:grabbing}
+.pill:hover{border-color:var(--cpx); background:var(--cpx-wash)}
+.pill.dragging{opacity:.4}
+.gpill.dragging{opacity:.4}
+.pill .dot{width:7px; height:7px; border-radius:2px; flex:none}
+.pill .pn{overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:170px}
+.pill .pv{color:var(--muted); font-weight:600; flex:none}
+.pill.zero .pv{color:var(--faint); font-weight:500}
+.pill.moved{border-color:var(--cpx-mid); background:var(--cpx-wash)}
+.pill .px{display:none; color:var(--faint); font-size:.82rem; line-height:1; margin-left:1px; padding:0 2px; border-radius:50%}
+.pill:hover .px{display:inline-block}
+.pill .px:hover{color:var(--red); background:var(--red-lt)}
+.pill.hit{border-color:var(--green); background:var(--green-lt)}
+.pill.hidden{display:none}
+.catpill{
+  display:inline-flex; align-items:center; gap:6px;
+  border-radius:999px; padding:4px 11px; font-size:.73rem; font-weight:600;
+  cursor:pointer; border:1px solid transparent;
+}
+.catpill i{width:7px; height:7px; border-radius:2px}
+.catpill .cv{opacity:.75; font-weight:600}
+.morepill{
+  border:1px dashed var(--cpx-lt); border-radius:999px; padding:4px 12px;
+  font-size:.73rem; font-weight:600; color:var(--cpx); background:var(--card); cursor:pointer;
+}
+.morepill:hover{border-color:var(--cpx); background:var(--cpx-wash)}
+.hint{padding:14px 16px 16px; font-size:.73rem; color:var(--faint)}
+
+.addcard{
+  border:1.5px dashed var(--cpx-lt); border-radius:14px; min-height:120px;
+  display:flex; align-items:center; justify-content:center;
+  color:var(--cpx); font-weight:600; font-size:.84rem; cursor:pointer;
+  background:var(--cpx-wash); transition:border-color .12s;
+}
+.addcard:hover{border-color:var(--cpx)}
+.addcard input{
+  background:var(--card); border:1px solid var(--line); border-radius:8px;
+  padding:9px 11px; width:82%; font-size:.84rem; text-align:center; text-transform:uppercase;
+}
+.addcard input::placeholder{color:var(--faint); text-transform:none}
+
+/* growth spend rows */
+.gsrow{display:flex; align-items:center; gap:8px; padding:6px 8px; border:1px solid var(--line); border-radius:9px; background:var(--thead); font-size:.78rem}
+.gsrow .gsname{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:600; cursor:text}
+.gsrow .gsamt{font-weight:700; color:var(--cpx); white-space:nowrap; cursor:text}
+.gsrow .gsdelit{border:none; color:var(--faint); font-size:.76rem; padding:0 4px; border-radius:5px; flex:none}
+.gsrow .gsdelit:hover{color:var(--red); background:var(--red-lt)}
+.gsrow input{border:1px solid var(--line); border-radius:7px; padding:5px 8px; font-size:.78rem; background:var(--card)}
+.gsrow .gsinName{flex:1; min-width:0}
+.gsrow .gsinOk{background:var(--cpx); color:#fff; border-radius:7px; padding:5px 10px; font-size:.72rem; font-weight:700; flex:none}
+.gsadd{text-align:left; color:var(--cpx); font-weight:600; font-size:.76rem; padding:6px 4px}
+.gsadd:hover{text-decoration:underline}
+
+/* group tray */
+aside.tray{
+  background:var(--card); border:1px solid var(--line); border-top:3px solid var(--cpx);
+  border-radius:14px; box-shadow:var(--shadow);
+  position:sticky; top:16px;
+  max-height:calc(100vh - 32px); display:flex; flex-direction:column; overflow:hidden;
+}
+.tray.dropping{border-color:var(--cpx); box-shadow:0 0 0 2px var(--cpx-lt)}
+.tray > header{
+  padding:13px 15px; border-bottom:1px solid var(--line); background:var(--cpx-wash);
+  display:flex; align-items:flex-start; gap:10px;
+}
+.tray .tcode{font-size:.94rem; font-weight:700; color:var(--cpx)}
+.tray .tsub{font-size:.7rem; color:var(--muted); margin-top:3px; line-height:1.45}
+.tray .traycloud{overflow:auto; flex:1}
+.tray .tsec{
+  padding:8px 15px 2px; font-size:.62rem; font-weight:600; color:var(--muted);
+  text-transform:uppercase; letter-spacing:.05em; display:flex; gap:6px; align-items:center;
+}
+.tray .tsec i{width:7px; height:7px; border-radius:2px}
+.tray .cloud{padding:6px 14px 10px}
+
+/* popovers / modal */
+.popbase{
+  position:fixed; z-index:60; background:var(--card); border:1px solid var(--line);
+  border-radius:11px; box-shadow:0 10px 30px rgba(26,34,48,.2);
+  padding:6px; display:none; max-height:340px; overflow:auto; min-width:180px;
+}
+.popbase.open{display:block}
+.popbase .php{font-size:.64rem; color:var(--faint); padding:4px 8px 6px; border-bottom:1px solid var(--line); margin-bottom:4px}
+.popbase button.pitem{display:flex; align-items:center; gap:8px; width:100%; text-align:left; padding:6px 9px; border-radius:7px; font-size:.79rem; font-weight:600}
+.popbase button.pitem:hover{background:var(--cpx-wash); color:var(--cpx)}
+.popbase button.pitem.gr{color:var(--red)}
+.popbase button.pitem.gr:hover{background:var(--red-lt); color:var(--red)}
+.popbase button.pitem:disabled{color:var(--faint); font-weight:400; cursor:default; background:none}
+.popbase .psec{font-size:.6rem; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--faint); padding:7px 9px 2px}
+.newlead{border-top:1px solid var(--line); margin-top:5px; padding:8px}
+.newlead input{width:100%; border:1px solid var(--line); border-radius:7px; padding:6px 9px; font-size:.79rem; background:var(--card)}
+.newlead .row{display:flex; gap:6px; margin-top:6px}
+.newlead .seg{flex:1; border:1px solid var(--line); border-radius:7px; padding:5px 0; font-size:.71rem; font-weight:600; color:var(--muted); text-align:center}
+.newlead .seg.on{border-color:var(--cpx); color:var(--cpx); background:var(--cpx-wash)}
+.newlead .add{flex:1; background:var(--cpx); color:#fff; border-radius:7px; padding:5px 0; font-size:.71rem; font-weight:700}
+
+#modal{position:fixed; inset:0; z-index:70; background:rgba(26,34,48,.45); display:none; align-items:center; justify-content:center; padding:20px}
+#modal.open{display:flex}
+#modal .box{background:var(--card); border-radius:13px; padding:20px; max-width:640px; width:100%; display:flex; flex-direction:column; gap:10px; box-shadow:0 16px 50px rgba(26,34,48,.3)}
+#modal h2{font-size:.98rem}
+#modal p{font-size:.78rem; color:var(--muted)}
+#modal textarea{width:100%; height:220px; font-family:ui-monospace,monospace; font-size:.71rem; background:var(--thead); color:var(--ink); border:1px solid var(--line); border-radius:8px; padding:8px; resize:vertical}
+#modal .row{display:flex; gap:8px; justify-content:flex-end}
+.btn{border:1px solid var(--line); border-radius:8px; padding:7px 13px; font-size:.78rem; font-weight:600; background:var(--card)}
+.btn:hover{border-color:var(--cpx); color:var(--cpx)}
+
+@media (max-width:1200px){
+  .boardwrap{grid-template-columns:1fr}
+  aside.tray{position:static; max-height:460px; order:-1}
+}
+@media (max-width:1040px){
+  .bgrid{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+  .crow{grid-template-columns:74px 1fr 64px}
+}
+@media (max-width:900px){
+  body{flex-direction:column}
+  nav{width:100%; height:auto; position:static; flex-direction:row; flex-wrap:wrap; align-items:center}
+  nav .grp, nav .foot{display:none}
+  nav .brand{border:none}
+  nav button.navlink{margin:4px}
+}
+</style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+
+<div class="shell">
+<nav>
+  <div class="brand">
+    <div class="logo" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M4 18V10M10 18V6M16 18v-6M22 18H2" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>
+    </div>
+    <div><b>Cost Centers</b><br><span>2026 baseline · ITCAN Group</span></div>
+  </div>
+  <div class="grp">Boards</div>
+  <button class="navlink active" data-view="cat"><span class="ic">◔</span>Costs by type</button>
+  <button class="navlink" data-view="team"><span class="ic">▤</span>By cost center</button>
+  <button class="navlink" data-view="board"><span class="ic">▦</span>Resource planning</button>
+  <button class="navlink" data-view="umbrella"><span class="ic">☂</span>Umbrella view</button>
+  <button class="navlink" data-view="trend"><span class="ic">◉</span>Run rate &amp; 2027</button>
+  <button class="navlink" data-view="rules"><span class="ic">◈</span>Guidelines</button>
+  <div class="grp">Meeting</div>
+  <button class="navlink" id="expAll"><span class="ic">＋</span>Expand all</button>
+  <button class="navlink" id="colAll"><span class="ic">－</span>Collapse all</button>
+  <div class="grp">Output</div>
+  <button class="navlink" id="expXlsx"><span class="ic">⇩</span>Export Excel</button>
+  <button class="navlink" id="expJson"><span class="ic">⇩</span>Export JSON</button>
+  <button class="navlink" id="hiddenBtn"><span class="ic">◌</span>Hidden lines (0)</button>
+  <button class="navlink" id="ccyBtn"><span class="ic">⇄</span>Currency: <b style="margin-left:4px" id="ccyNow">AED</b></button>
+  <button class="navlink" id="reset"><span class="ic">↺</span>Reset board</button>
+  <div class="foot">
+    <b>● Live</b> — run rate = avg of non-zero Jun–Aug actuals, <span class="ccytag">AED</span>/mo · 1 USD = 3.6725 AED<br>
+    <span id="savenote">Auto-saves on this device</span>
+  </div>
+</nav>
+
+<div class="content">
+  <div class="hrow">
+    <div>
+      <h1>Cost Center Ownership</h1>
+      <div class="psub">2027 planning baseline (locked) · ITCAN + CPX &amp; MoonTech · <span class="ccytag">AED</span> <span class="chip o">■ Actuals — Jan–Aug</span> <span class="chip n">□ Run rate → Sep 26–Dec 27</span></div>
+    </div>
+    <div class="grow"></div>
+    <input type="search" id="q" placeholder="Find a cost line…" aria-label="Find a cost line">
+  </div>
+
+  <div class="kpis">
+    <div class="card kpi"><div class="lbl">Total run rate</div><div class="big num" id="kTotal">–<small> /mo</small></div><div class="sub"><span class="chip n num" id="kTotalFy"></span></div></div>
+    <div class="card kpi"><div class="lbl">Owned by cost centers</div><div class="big num" id="kTeam">–</div><div class="sub"><span class="chip g num" id="kTeamPct"></span></div></div>
+    <div class="card kpi hot"><div class="lbl">Group costs — unowned</div><div class="big num" id="kGroup">–</div><div class="sub"><span class="chip o num" id="kGroupN"></span></div></div>
+    <div class="card kpi"><div class="lbl">Leaders named</div><div class="big num" id="kLead">0<small> / 17</small></div><div class="sub"><span class="chip n num" id="kMoved">0 lines moved</span></div></div>
+  </div>
+
+  <!-- BOARD 1 -->
+  <section class="view on" id="view-cat">
+    <div class="card">
+      <h2>Run rate by expense category</h2>
+      <div class="csub">Run rate from non-zero Jun–Aug actuals · all centers + group · <span class="ccytag">AED</span>/mo</div>
+      <div id="catBars" style="margin-top:16px"></div>
+      <div class="totband num" id="catTot"></div>
+    </div>
+    <div class="card colchart" style="margin-top:14px">
+      <h2>Monthly actuals by category — Jan to Aug</h2>
+      <div class="csub">Monthly actual cost stacked by category · Jan–Aug · <span class="ccytag">AED</span></div>
+      <div id="colStack"></div>
+      <div class="legend" id="colLegend" style="justify-content:center; margin-top:8px"></div>
+    </div>
+  </section>
+
+  <!-- BOARD 2 -->
+  <section class="view" id="view-team">
+    <div class="card">
+      <h2>Monthly run rate by cost center</h2>
+      <div class="csub">Stacked by expense category — reflects every change on the resource planning board. Click a bar to open its card.</div>
+      <div class="legend" id="legend"></div>
+      <div id="chart" style="margin-top:6px"></div>
+      <div class="totband num" id="teamTot"></div>
+    </div>
+  </section>
+
+  <!-- BOARD 3 -->
+  <section class="view" id="view-board">
+    <div class="boardwrap">
+      <div class="bgrid" id="grid"></div>
+      <aside class="tray" id="tray" aria-label="Group costs">
+        <header>
+          <div style="flex:1">
+            <div class="tcode">Group costs</div>
+            <div class="tsub">Held at entity level by design. Drag a pill onto a cost center if the room decides it belongs there.</div>
+          </div>
+          <div class="money"><b class="num" id="trayMo">–</b><span class="num" id="trayN"></span></div>
+        </header>
+        <div class="traycloud" id="trayCloud"></div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- UMBRELLA -->
+  <section class="view" id="view-umbrella">
+    <div class="hrow" style="margin-bottom:10px">
+      <div>
+        <h2 style="font-size:1.2rem">Umbrella view</h2>
+        <div class="csub">Group cost centers under a manager. Create an umbrella, name its master cost center and manager, then drag the cost-center cards into it. Each umbrella shows its own run-rate chart.</div>
+      </div>
+      <div class="grow"></div>
+      <div class="money" style="text-align:right">
+        <b class="num" id="umTotal" style="font-size:1.4rem">–</b>
+        <span class="num" style="font-size:.7rem; color:var(--muted)" id="umSub"></span>
+      </div>
+    </div>
+    <aside class="umtray" id="umTray">
+      <div class="umtray-h">Unassigned cost centers — drag into an umbrella</div>
+      <div class="umtray-body" id="umTrayBody"></div>
+    </aside>
+    <div id="umList"></div>
+  </section>
+
+  <!-- BOARD 4 -->
+  <section class="view" id="view-trend">
+    <div class="card">
+      <h2>Actuals to Aug, then run-rate projection into 2027</h2>
+      <div class="csub">Solid = Jan–Aug 2026 actuals · dashed = Sep 2026 → Dec 2027 at run rate (non-zero Jun–Aug basis), recomputed as you reallocate. Toggle series below.</div>
+      <div class="lchart" id="lchart"></div>
+      <div class="ltog" id="ltog"></div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <h2>Cost center register · run rate &amp; 2027 projection</h2>
+      <div class="csub">Sep–Dec 26 and 2027 quarters = months at run rate. Run rate = avg of non-zero Jun–Aug actuals, live with reallocation.</div>
+      <div class="tblwrap"><table class="dt">
+        <thead><tr>
+          <th class="l">Cost center</th><th class="l">Leader</th><th>Lines</th><th><span class="ccytag">AED</span> /mo</th>
+          <th>Sep–Dec 26</th><th>Q1 27</th><th>Q2 27</th><th>Q3 27</th><th>Q4 27</th><th>FY 2027</th><th class="l">Status</th>
+        </tr></thead>
+        <tbody id="regBody"></tbody><tfoot id="regFoot"></tfoot>
+      </table></div>
+    </div>
+  </section>
+
+  <!-- GUIDELINES -->
+  <section class="view" id="view-rules">
+    <div class="card gl" id="glCard">
+      <div class="hrow" style="margin-bottom:4px">
+        <div style="flex:1">
+          <h2 id="glTitle">Budget guidelines</h2>
+          <div class="csub" id="glSub">How resource planning budgets are set and managed. Read before you submit your 2027 numbers.</div>
+        </div>
+        <div style="display:flex; gap:7px; align-items:flex-start">
+          <button class="btn" id="glEdit">✎ Edit</button>
+          <button class="btn" id="glReset" style="display:none">Reset to default</button>
+        </div>
+      </div>
+      <div id="glBody"></div>
+      <div class="glhint" id="glHint" style="display:none">Editing — click any text to change it. Use ＋ to add a section or bullet, ✕ to remove. Click <b>Done</b> to save.</div>
+    </div>
+  </section>
+</div>
+</div><!-- /shell -->
+
+<div id="pop" class="popbase" role="menu"></div>
+<div id="ppl" class="popbase" role="menu"></div>
+
+<div id="modal">
+  <div class="box">
+    <h2 id="mTitle">Export</h2>
+    <p>Automatic download isn’t available here. Select all, copy, and paste into a file.</p>
+    <textarea id="mText" readonly></textarea>
+    <div class="row">
+      <button class="btn" id="mCopy">Copy to clipboard</button>
+      <button class="btn" id="mClose">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const RAW = [{"id": "L001", "name": "(contact TR for disclosure)", "src": "Sheet1 row 16 - CPX", "cat": "Payroll", "entity": "Itcan + CPX", "orig": "CPX", "home": "CPX", "mo": 3596.42, "fy": 42507.72, "act": 28122.04, "m": [3495.67, 3495.67, 3169.02, 3634.0, 3538.43, 3538.43, 3538.43, 3712.39]}, {"id": "L002", "name": "(contact TR for disclosure)", "src": "Sheet1 row 4 - DES", "cat": "Payroll", "entity": "Itcan + CPX", "orig": "DES", "home": "DMT", "mo": 12699.58, "fy": 169776.41, "act": 118978.09, "m": [17702.93, 17702.93, 16048.71, 15243.0, 14181.77, 13347.96, 12942.83, 11807.96]}, {"id": "L003", "name": "(contact TR for disclosure)", "src": "Sheet1 row 14 - DMT", "cat": "Payroll", "entity": "Itcan + CPX", "orig": "DMT", "home": "CPX", "mo": 11051.19, "fy": 138388.36, "act": 94183.6, "m": [13670.52, 13670.52, 12393.1, 10405.0, 10890.89, 11021.73, 10142.1, 11989.74]}, {"id": "L004", "name": "(contact TR for disclosure)", "src": "Sheet1 row 12 - FIN", "cat": "Payroll", "entity": "Itcan + CPX", "orig": "FIN", "home": "FIN", "mo": 28500, "fy": 334800.0, "act": 220800.0, "m": [26700.0, 26700.0, 26700.0, 26700.0, 28500.0, 28500.0, 28500.0, 28500.0]}, {"id": "L005", "name": "(contact TR for disclosure)", "src": "Sheet1 row 13 - GF", "cat": "Payroll", "entity": "Itcan + CPX", "orig": "GF", "home": "STR", "mo": 2157.27, "fy": 26333.38, "act": 17704.3, "m": [2384.26, 2384.26, 2161.47, 2180.0, 2122.49, 2122.49, 2122.49, 2226.84]}, {"id": "L006", "name": "(contact TR for disclosure)", "src": "Sheet1 row 5 - KM", "cat": "Payroll", "entity": "Itcan + CPX", "orig": "KM", "home": "KM", "mo": 10358.04, "fy": 165926.33, "act": 124494.17, "m": [19505.31, 19342.49, 18403.45, 18225.79, 17943.02, 12628.99, 9121.46, 9323.66]}, {"id": "L007", "name": "(contact TR for disclosure)", "src": "Sheet1 row 17 - MARS", "cat": "Payroll", "entity": "Itcan + CPX", "orig": "MARS", "home": "CPX", "mo": 10102.17, "fy": 121487.25, "act": 81078.57, "m": [10235.14, 10235.14, 10104.62, 10115.38, 10081.79, 10081.79, 10081.79, 10142.92]}, {"id": "L008", "name": "(contact TR for disclosure)", "src": "Sheet1 row 6 - OPR", "cat": "Payroll", "entity": "Itcan + CPX", "orig": "OPR", "home": "TE", "mo": 21808.7, "fy": 203502.2, "act": 116267.4, "m": [10787.02, 10787.02, 10382.46, 9482.09, 9402.7, 21778.53, 21799.12, 21848.46]}, {"id": "L009", "name": "(contact TR for disclosure)", "src": "Sheet1 row 8 - SDM", "cat": "Payroll", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 9517.95, "fy": 167324.07, "act": 129252.27, "m": [23398.43, 23214.26, 21325.37, 22710.79, 10049.57, 9413.65, 13789.07, 5351.13]}, {"id": "L010", "name": "(contact TR for disclosure)", "src": "Sheet1 row 11 - STR", "cat": "Payroll", "entity": "Itcan + CPX", "orig": "STR", "home": "STR", "mo": 62000, "fy": 744000.0, "act": 496000.0, "m": [62000.0, 62000.0, 62000.0, 62000.0, 62000.0, 62000.0, 62000.0, 62000.0]}, {"id": "L011", "name": "(contact TR for disclosure)", "src": "Sheet1 row 7 - TD", "cat": "Payroll", "entity": "Itcan + CPX", "orig": "TD", "home": "TE", "mo": 4275.51, "fy": 47939.35, "act": 30837.31, "m": [3712.76, 3712.76, 3365.83, 3658.0, 3561.44, 4533.05, 4047.25, 4246.22]}, {"id": "L012", "name": "(contact TR for disclosure)", "src": "Sheet1 row 10 - TE", "cat": "Payroll", "entity": "Itcan + CPX", "orig": "TE", "home": "TE", "mo": 13548.45, "fy": 153674.84, "act": 99481.04, "m": [6312.98, 12296.98, 13140.77, 13570.02, 13514.94, 13514.94, 13514.94, 13615.47]}, {"id": "L013", "name": "(contact TR for disclosure)", "src": "Sheet1 row 9 - TO", "cat": "Payroll", "entity": "Itcan + CPX", "orig": "TO", "home": "TE", "mo": 35555.78, "fy": 432741.6, "act": 290518.48, "m": [37022.13, 36727.22, 36327.49, 36293.46, 37480.83, 33480.83, 36259.28, 36927.24]}, {"id": "L014", "name": "(contact TR for disclosure)", "src": "Live (ITCAN+CPXMARS) / Salaries - Egypt payroll tax", "cat": "Payroll", "entity": "Itcan + CPX", "orig": "GROUP", "home": "TE", "mo": 17493.05, "fy": 212286.44, "act": 142314.24, "m": [18724.0, 19328.0, 17410.0, 16693.0, 17680.1, 17504.82, 16894.0, 18080.32]}, {"id": "L015", "name": "(contact TR for disclosure)", "src": "Live (ITCAN+CPXMARS) / Salaries - Egypt social insurance", "cat": "Payroll", "entity": "Itcan + CPX", "orig": "GROUP", "home": "TE", "mo": 9299.03, "fy": 114046.35, "act": 76850.23, "m": [9558.0, 9781.0, 9903.0, 10393.0, 9318.14, 10259.85, 8867.0, 8770.24]}, {"id": "L016", "name": "(contact TR for disclosure)", "src": "Live (ITCAN+CPXMARS) / Salaries - KSA social insurance", "cat": "Payroll", "entity": "Itcan + CPX", "orig": "GROUP", "home": "TE", "mo": 20429.77, "fy": 216154.51, "act": 134435.43, "m": [14407.66, 13117.0, 14408.0, 17778.47, 13435.0, 20379.0, 20379.0, 20531.3]}, {"id": "L017", "name": "Aya Ahmed", "src": "CPX / Aya Ahmed", "cat": "Perdiem", "entity": "Itcan + CPX", "orig": "CPX", "home": "CPX", "mo": 466.05, "fy": 5592.6, "act": 3728.4, "m": [466.05, 466.05, 466.05, 466.05, 466.05, 466.05, 466.05, 466.05]}, {"id": "L018", "name": "Aya Samy", "src": "CPX / Aya Samy", "cat": "Perdiem", "entity": "Itcan + CPX", "orig": "CPX", "home": "CPX", "mo": 655.04, "fy": 7860.48, "act": 5240.32, "m": [655.04, 655.04, 655.04, 655.04, 655.04, 655.04, 655.04, 655.04]}, {"id": "L019", "name": "Esraa Sakout", "src": "CPX / Esraa Sakout", "cat": "Perdiem", "entity": "Itcan + CPX", "orig": "CPX", "home": "CPX", "mo": 676.87, "fy": 8013.3, "act": 5305.82, "m": [655.04, 655.04, 655.04, 655.04, 655.04, 655.04, 655.04, 720.54]}, {"id": "L020", "name": "Youssif Bousy", "src": "CPX / Youssif Bousy", "cat": "Perdiem", "entity": "Itcan + CPX", "orig": "CPX", "home": "CPX", "mo": 655.04, "fy": 7860.48, "act": 5240.32, "m": [655.04, 655.04, 655.04, 655.04, 655.04, 655.04, 655.04, 655.04]}, {"id": "L021", "name": "Ahmed Hussien", "src": "DES / Ahmed Hussien", "cat": "Perdiem", "entity": "Itcan + CPX", "orig": "DES", "home": "DMT", "mo": 1468, "fy": 17542.6, "act": 11670.6, "m": [1541.4, 1541.4, 1394.6, 1394.6, 1394.6, 1468.0, 1468.0, 1468.0]}, {"id": "L022", "name": "Hamza Mahmud A. Jaloudi", "src": "KM / Hamza Mahmud A. Jaloudi", "cat": "Perdiem", "entity": "Itcan + CPX", "orig": "KM", "home": "SDM", "mo": 1785.45, "fy": 10712.71, "act": 3570.91, "m": [0.0, 0.0, 0.0, 0.0, 0.0, 2836.91, 734.0, 0.0]}, {"id": "L023", "name": "Mahmoud Maged", "src": "KM / Mahmoud Maged", "cat": "Perdiem", "entity": "Itcan + CPX", "orig": "KM", "home": "SDM", "mo": 683.02, "fy": 9977.87, "act": 7245.79, "m": [0.0, 0.0, 0.0, 2690.11, 2506.61, 917.5, 917.5, 214.07]}, {"id": "L024", "name": "Malek ElSayed", "src": "KM / Malek ElSayed", "cat": "Perdiem", "entity": "Itcan + CPX", "orig": "KM", "home": "KM", "mo": 5314.16, "fy": 37199.12, "act": 15942.48, "m": [0.0, 0.0, 0.0, 0.0, 0.0, 3963.6, 3170.88, 8808.0]}, {"id": "L025", "name": "Mohab Hafez Gad", "src": "KM / Mohab Hafez Gad", "cat": "Perdiem", "entity": "Itcan + CPX", "orig": "KM", "home": "SDM", "mo": 3598.91, "fy": 17994.55, "act": 3598.91, "m": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 3598.91]}, {"id": "L026", "name": "Samara Ghayad", "src": "KM / Samara Ghayad", "cat": "Perdiem", "entity": "Itcan + CPX", "orig": "KM", "home": "KM", "mo": 31882.32, "fy": 313940.88, "act": 186411.6, "m": [9000.0, 9000.0, 9000.0, 31882.32, 31882.32, 31882.32, 31882.32, 31882.32]}, {"id": "L027", "name": "Ziad Bashar Mohammed", "src": "KM / Ziad Bashar Mohammed", "cat": "Perdiem", "entity": "Itcan + CPX", "orig": "KM", "home": "SDM", "mo": 7095.94, "fy": 79275.65, "act": 50891.89, "m": [7340.0, 7340.0, 7340.0, 7340.0, 7340.0, 7340.0, 6851.89, 0.0]}, {"id": "L028", "name": "Amal Awlaqi", "src": "MARS / Amal Awlaqi", "cat": "Perdiem", "entity": "Itcan + CPX", "orig": "MARS", "home": "CPX", "mo": 294, "fy": 3528.0, "act": 2352.0, "m": [294.0, 294.0, 294.0, 294.0, 294.0, 294.0, 294.0, 294.0]}, {"id": "L029", "name": "Juri waleed", "src": "MARS / Juri waleed", "cat": "Perdiem", "entity": "Itcan + CPX", "orig": "MARS", "home": "CPX", "mo": 490, "fy": 5929.0, "act": 3969.0, "m": [490.0, 490.0, 539.0, 490.0, 490.0, 490.0, 490.0, 490.0]}, {"id": "L030", "name": "Rahaf", "src": "MARS / Rahaf", "cat": "Perdiem", "entity": "Itcan + CPX", "orig": "MARS", "home": "CPX", "mo": 294, "fy": 3528.0, "act": 2352.0, "m": [294.0, 294.0, 294.0, 294.0, 294.0, 294.0, 294.0, 294.0]}, {"id": "L031", "name": "Rawaa", "src": "MARS / Rawaa", "cat": "Perdiem", "entity": "Itcan + CPX", "orig": "MARS", "home": "CPX", "mo": 294, "fy": 3528.0, "act": 2352.0, "m": [294.0, 294.0, 294.0, 294.0, 294.0, 294.0, 294.0, 294.0]}, {"id": "L032", "name": "Rawan", "src": "MARS / Rawan", "cat": "Perdiem", "entity": "Itcan + CPX", "orig": "MARS", "home": "CPX", "mo": 294, "fy": 3528.0, "act": 2352.0, "m": [294.0, 294.0, 294.0, 294.0, 294.0, 294.0, 294.0, 294.0]}, {"id": "L033", "name": "Rawan Saeed Alsabry", "src": "MARS / Rawan Saeed Alsabry", "cat": "Perdiem", "entity": "Itcan + CPX", "orig": "MARS", "home": "CPX", "mo": 490, "fy": 5873.14, "act": 3913.14, "m": [490.0, 490.0, 539.0, 490.0, 434.14, 490.0, 490.0, 490.0]}, {"id": "L034", "name": "Devangi Thakore", "src": "DEV (Tech, Product, Data) / Devangi Thakore", "cat": "Perdiem", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 10276, "fy": 110467.0, "act": 69363.0, "m": [7707.0, 7707.0, 7707.0, 7707.0, 7707.0, 10276.0, 10276.0, 10276.0]}, {"id": "L035", "name": "Dhanwan", "src": "DEV (Tech, Product, Data) / Dhanwan", "cat": "Perdiem", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 5759.01, "fy": 68075.49, "act": 45039.45, "m": [6077.52, 4830.16, 5976.85, 5372.88, 5505.0, 5372.88, 6462.87, 5441.29]}, {"id": "L036", "name": "Elena Romasenco", "src": "DEV (Tech, Product, Data) / Elena Romasenco", "cat": "Perdiem", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 4404, "fy": 52848.0, "act": 35232.0, "m": [4404.0, 4404.0, 4404.0, 4404.0, 4404.0, 4404.0, 4404.0, 4404.0]}, {"id": "L037", "name": "Helina Girmay", "src": "DEV (Tech, Product, Data) / Helina Girmay", "cat": "Perdiem", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 12999, "fy": 157388.0, "act": 105392.0, "m": [14399.0, 12999.0, 12999.0, 12999.0, 12999.0, 12999.0, 12999.0, 12999.0]}, {"id": "L038", "name": "Sachin Joge", "src": "DEV (Tech, Product, Data) / Sachin Joge", "cat": "Perdiem", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 6606, "fy": 79272.0, "act": 52848.0, "m": [6606.0, 6606.0, 6606.0, 6606.0, 6606.0, 6606.0, 6606.0, 6606.0]}, {"id": "L039", "name": "Shoaib Akram", "src": "DEV (Tech, Product, Data) / Shoaib Akram", "cat": "Perdiem", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 4404, "fy": 52848.0, "act": 35232.0, "m": [4404.0, 4404.0, 4404.0, 4404.0, 4404.0, 4404.0, 4404.0, 4404.0]}, {"id": "L040", "name": "Mahy", "src": "TA / Mahy", "cat": "Perdiem", "entity": "Itcan + CPX", "orig": "TO", "home": "TE", "mo": 934.76, "fy": 11217.12, "act": 7478.08, "m": [934.76, 934.76, 934.76, 934.76, 934.76, 934.76, 934.76, 934.76]}, {"id": "L041", "name": "Nour Mokhtar", "src": "TA / Nour Mokhtar", "cat": "Perdiem", "entity": "Itcan + CPX", "orig": "TO", "home": "TE", "mo": 6239, "fy": 69014.35, "act": 44058.35, "m": [0.0, 6239.0, 6239.0, 6624.35, 6239.0, 6239.0, 6239.0, 6239.0]}, {"id": "L042", "name": "Nour jabaseh", "src": "TA / Nour jabaseh", "cat": "Perdiem", "entity": "Itcan + CPX", "orig": "TO", "home": "TE", "mo": 2584.37, "fy": 30452.5, "act": 20115.02, "m": [1938.28, 2584.37, 2584.37, 2670.52, 2584.37, 2584.37, 2584.37, 2584.37]}, {"id": "L043", "name": "Front", "src": "Front (owner: Creator CAC)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "CPX", "home": "CPX", "mo": 2851, "fy": 34212.0, "act": 22808.0, "m": [2851.0, 2851.0, 2851.0, 2851.0, 2851.0, 2851.0, 2851.0, 2851.0]}, {"id": "L044", "name": "HubSpot", "src": "HubSpot (one subscription, 3-way owner split)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "CPX", "home": "CPX", "mo": 1948.72, "fy": 23763.95, "act": 15969.07, "m": [2023.0, 2023.0, 2024.75, 2027.41, 2024.75, 2010.75, 1915.41, 1920.0]}, {"id": "L045", "name": "MoEngage", "src": "MoEngage (owner: Total CAC)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "CPX", "home": "CPX", "mo": 2269.34, "fy": 27232.08, "act": 18154.72, "m": [2269.34, 2269.34, 2269.34, 2269.34, 2269.34, 2269.34, 2269.34, 2269.34]}, {"id": "L046", "name": "Number- TM (Sendbee)", "src": "Number- TM (Sendbee) (owner: Creator CAC)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "CPX", "home": "CPX", "mo": 755.66, "fy": 9623.26, "act": 6600.62, "m": [891.34, 885.96, 796.0, 823.0, 937.34, 780.66, 819.66, 666.66]}, {"id": "L047", "name": "Superchat (Front alternative)", "src": "Superchat (Front alternative) (owner: Creator CAC)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "CPX", "home": "CPX", "mo": 0, "fy": 0.0, "act": 0.0, "m": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"id": "L048", "name": "Twilio", "src": "Twilio (owner: Creator CAC)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "CPX", "home": "CPX", "mo": 100, "fy": 965.3, "act": 565.3, "m": [110.0, 119.3, 0.0, 122.0, 114.0, 0.0, 0.0, 100.0]}, {"id": "L049", "name": "Supermetrics Data Studio", "src": "Supermetrics Data Studio (owner: Merchant CAC)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "DMT", "home": "CPX", "mo": 1329, "fy": 11997.0, "act": 6681.0, "m": [0.0, 0.0, 0.0, 1347.0, 1347.0, 1347.0, 1320.0, 1320.0]}, {"id": "L050", "name": "Airtable", "src": "Airtable (owner: Finance)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "FIN", "home": "FIN", "mo": 264, "fy": 3108.0, "act": 2052.0, "m": [176.0, 292.0, 264.0, 264.0, 264.0, 264.0, 264.0, 264.0]}, {"id": "L051", "name": "Kissflow", "src": "Kissflow (owner: Finance)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "FIN", "home": "FIN", "mo": 3670, "fy": 44040.0, "act": 29360.0, "m": [3670.0, 3670.0, 3670.0, 3670.0, 3670.0, 3670.0, 3670.0, 3670.0]}, {"id": "L052", "name": "Quickbooks - AlTaathir", "src": "Quickbooks - AlTaathir (owner: Finance)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "FIN", "home": "FIN", "mo": 177, "fy": 2124.0, "act": 1416.0, "m": [177.0, 177.0, 177.0, 177.0, 177.0, 177.0, 177.0, 177.0]}, {"id": "L053", "name": "Quickbooks - ITCan", "src": "Quickbooks - ITCan (owner: Finance)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "FIN", "home": "FIN", "mo": 343, "fy": 4116.0, "act": 2744.0, "m": [343.0, 343.0, 343.0, 343.0, 343.0, 343.0, 343.0, 343.0]}, {"id": "L054", "name": "Quickbooks - MXIN", "src": "Quickbooks - MXIN (owner: Finance)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "FIN", "home": "FIN", "mo": 73, "fy": 884.0, "act": 592.0, "m": [73.0, 73.0, 73.0, 81.0, 73.0, 73.0, 73.0, 73.0]}, {"id": "L055", "name": "Quickbooks - MoonTech", "src": "Quickbooks - MoonTech (owner: Finance)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "FIN", "home": "FIN", "mo": 177, "fy": 2124.0, "act": 1416.0, "m": [177.0, 177.0, 177.0, 177.0, 177.0, 177.0, 177.0, 177.0]}, {"id": "L056", "name": "Tamam", "src": "Tamam (owner: Finance)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "FIN", "home": "FIN", "mo": 2015, "fy": 10075.0, "act": 2015.0, "m": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2015.0]}, {"id": "L057", "name": "Zoho", "src": "Zoho (owner: Finance)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "FIN", "home": "FIN", "mo": 126, "fy": 1550.0, "act": 1046.0, "m": [126.0, 126.0, 126.0, 145.0, 145.0, 126.0, 126.0, 126.0]}, {"id": "L058", "name": "DocSend", "src": "DocSend (owner: Investor Relations)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "GF", "home": "STR", "mo": 633, "fy": 7850.0, "act": 5318.0, "m": [760.0, 760.0, 633.0, 633.0, 633.0, 633.0, 633.0, 633.0]}, {"id": "L059", "name": "HubSpot", "src": "HubSpot (one subscription, 3-way owner split)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "GF", "home": "STR", "mo": 7794.89, "fy": 95055.9, "act": 63876.34, "m": [8092.0, 8092.0, 8099.0, 8109.67, 8099.0, 8043.0, 7661.67, 7680.0]}, {"id": "L060", "name": "AWS - itcan", "src": "AWS - itcan (owner: Product)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 24480, "fy": 295106.26, "act": 197186.26, "m": [26175.0, 23492.0, 25336.9, 24230.36, 24512.0, 23815.0, 24625.0, 25000.0]}, {"id": "L061", "name": "Adobe", "src": "Adobe (owner: Product)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 1156, "fy": 11522.75, "act": 6898.75, "m": [1156.0, 1156.0, 0.0, 0.0, 1118.75, 1156.0, 1156.0, 1156.0]}, {"id": "L062", "name": "Airbridge", "src": "Airbridge (owner: Product)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 1505.87, "fy": 17971.08, "act": 11947.6, "m": [1486.0, 1486.0, 1486.0, 1486.0, 1486.0, 1486.0, 1486.0, 1545.6]}, {"id": "L063", "name": "Apptweak", "src": "Apptweak (owner: Product)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 363, "fy": 5097.0, "act": 3645.0, "m": [731.0, 731.0, 731.0, 0.0, 363.0, 363.0, 363.0, 363.0]}, {"id": "L064", "name": "Atlassian Dev", "src": "Atlassian Dev (owner: Product)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 4048.67, "fy": 45357.24, "act": 29162.56, "m": [3686.6, 4422.0, 4654.8, 2338.16, 1915.0, 4611.0, 4535.0, 3000.0]}, {"id": "L065", "name": "Brevo", "src": "Brevo (owner: Product)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 106, "fy": 1273.29, "act": 849.29, "m": [106.43, 106.43, 106.43, 106.0, 106.0, 106.0, 106.0, 106.0]}, {"id": "L066", "name": "DBT", "src": "DBT (owner: Product)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 451.67, "fy": 3528.68, "act": 1722.0, "m": [0.0, 0.0, 0.0, 0.0, 367.0, 621.0, 367.0, 367.0]}, {"id": "L067", "name": "Envato", "src": "Envato (owner: Product)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 64, "fy": 768.0, "act": 512.0, "m": [64.0, 64.0, 64.0, 64.0, 64.0, 64.0, 64.0, 64.0]}, {"id": "L068", "name": "Figma", "src": "Figma (owner: Product)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 607, "fy": 6569.0, "act": 4141.0, "m": [349.0, 349.0, 349.0, 647.0, 626.0, 587.0, 587.0, 647.0]}, {"id": "L069", "name": "Fillout", "src": "Fillout (owner: Product)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 180, "fy": 2160.0, "act": 1440.0, "m": [180.0, 180.0, 180.0, 180.0, 180.0, 180.0, 180.0, 180.0]}, {"id": "L070", "name": "Fivetran", "src": "Fivetran (owner: Product)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 3670, "fy": 29360.0, "act": 14680.0, "m": [0.0, 0.0, 0.0, 0.0, 3670.0, 3670.0, 3670.0, 3670.0]}, {"id": "L071", "name": "Framer - code71.ae / cpxaffiliate.com", "src": "Framer - code71.ae / cpxaffiliate.com (owner: Product)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 229.67, "fy": 2923.68, "act": 2005.0, "m": [263.0, 263.0, 263.0, 294.0, 233.0, 234.0, 253.0, 202.0]}, {"id": "L072", "name": "Framer - itcan.co", "src": "Framer - itcan.co (owner: Product)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 119.58, "fy": 1603.07, "act": 1124.75, "m": [153.0, 153.0, 153.0, 184.0, 123.0, 124.0, 143.0, 91.75]}, {"id": "L073", "name": "Framer - moontech.co", "src": "Framer - moontech.co (owner: Product)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 273.33, "fy": 2679.32, "act": 1586.0, "m": [153.0, 153.0, 153.0, 184.0, 123.0, 124.0, 348.0, 348.0]}, {"id": "L074", "name": "Freepik (Magnific)", "src": "Freepik (Magnific) (owner: Product)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 61, "fy": 732.0, "act": 488.0, "m": [61.0, 61.0, 61.0, 61.0, 61.0, 61.0, 61.0, 61.0]}, {"id": "L075", "name": "Github (technology)", "src": "Github (technology) (owner: Product)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 121, "fy": 968.0, "act": 484.0, "m": [0.0, 0.0, 0.0, 0.0, 121.0, 121.0, 121.0, 121.0]}, {"id": "L076", "name": "Godaddy", "src": "Godaddy (owner: Product)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 489.57, "fy": 3635.98, "act": 1677.7, "m": [0.0, 0.0, 0.0, 0.0, 209.0, 178.0, 645.35, 645.35]}, {"id": "L077", "name": "HubSpot", "src": "HubSpot (one subscription, 3-way owner split)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 7794.89, "fy": 95055.9, "act": 63876.34, "m": [8092.0, 8092.0, 8099.0, 8109.67, 8099.0, 8043.0, 7661.67, 7680.0]}, {"id": "L078", "name": "Jetbrains", "src": "Jetbrains (owner: Product)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 31, "fy": 372.0, "act": 248.0, "m": [31.0, 31.0, 31.0, 31.0, 31.0, 31.0, 31.0, 31.0]}, {"id": "L079", "name": "Lottie Files", "src": "Lottie Files (owner: Product)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 92, "fy": 1104.0, "act": 736.0, "m": [92.0, 92.0, 92.0, 92.0, 92.0, 92.0, 92.0, 92.0]}, {"id": "L080", "name": "MSFT Azure", "src": "MSFT Azure (owner: Product)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 10977, "fy": 134391.6, "act": 90483.6, "m": [11000.0, 11601.6, 11241.0, 12239.0, 11471.0, 11160.0, 10771.0, 11000.0]}, {"id": "L081", "name": "MSFT PowerBI", "src": "MSFT PowerBI (owner: Product)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 513, "fy": 6195.0, "act": 4143.0, "m": [513.0, 513.0, 513.0, 513.0, 552.0, 513.0, 513.0, 513.0]}, {"id": "L082", "name": "Phyllo (Insightiq.ai)", "src": "Phyllo (Insightiq.ai) (owner: Product)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 0, "fy": 9908.0, "act": 9908.0, "m": [2477.0, 2477.0, 2477.0, 2477.0, 0.0, 0.0, 0.0, 0.0]}, {"id": "L083", "name": "Replit - MoonTech", "src": "Replit - MoonTech (owner: blank)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 1101, "fy": 6606.0, "act": 2202.0, "m": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1101.0, 1101.0]}, {"id": "L084", "name": "Rudderstack", "src": "Rudderstack (owner: Product)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 807, "fy": 6130.0, "act": 2902.0, "m": [0.0, 0.0, 0.0, 0.0, 481.0, 807.0, 807.0, 807.0]}, {"id": "L085", "name": "SEMrush", "src": "SEMrush (owner: Merchant CAC)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 270, "fy": 2430.0, "act": 1350.0, "m": [0.0, 0.0, 0.0, 270.0, 270.0, 270.0, 270.0, 270.0]}, {"id": "L086", "name": "Engagedly", "src": "Engagedly (owner: Talent)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "TD", "home": "TE", "mo": 1230, "fy": 14760.0, "act": 9840.0, "m": [1230.0, 1230.0, 1230.0, 1230.0, 1230.0, 1230.0, 1230.0, 1230.0]}, {"id": "L087", "name": "MSFT licenses", "src": "MSFT licenses (owner: Talent)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "TD", "home": "TE", "mo": 103.56, "fy": 1808.58, "act": 1394.34, "m": [321.0, 321.0, 321.0, 0.0, 120.67, 115.33, 97.67, 97.67]}, {"id": "L088", "name": "OpenAI - itcan.ae", "src": "OpenAI - itcan.ae (owner: Talent)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "TD", "home": "TE", "mo": 24.33, "fy": 291.96, "act": 194.64, "m": [24.33, 24.33, 24.33, 24.33, 24.33, 24.33, 24.33, 24.33]}, {"id": "L089", "name": "MSFT licenses", "src": "MSFT licenses (owner: Talent)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "TE", "home": "TE", "mo": 103.55, "fy": 1808.52, "act": 1394.32, "m": [321.0, 321.0, 321.0, 0.0, 120.66, 115.34, 97.66, 97.66]}, {"id": "L091", "name": "Capquest", "src": "Capquest (owner: Talent)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "TO", "home": "TE", "mo": 1674, "fy": 21453.0, "act": 14757.0, "m": [661.0, 661.0, 661.0, 3876.0, 3876.0, 3876.0, 573.0, 573.0]}, {"id": "L092", "name": "Hireflix", "src": "Hireflix (owner: Talent)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "TO", "home": "TE", "mo": 275, "fy": 3300.0, "act": 2200.0, "m": [275.0, 275.0, 275.0, 275.0, 275.0, 275.0, 275.0, 275.0]}, {"id": "L093", "name": "Hubstaff (Netsoft)", "src": "Hubstaff (Netsoft) (owner: Talent)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "TO", "home": "TE", "mo": 1543.67, "fy": 19450.18, "act": 13275.5, "m": [1729.0, 1475.0, 2357.0, 1632.0, 1451.5, 1361.0, 1270.0, 2000.0]}, {"id": "L094", "name": "LinkedIn", "src": "LinkedIn (owner: Talent)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "TO", "home": "TE", "mo": 403, "fy": 2015.0, "act": 403.0, "m": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 403.0]}, {"id": "L095", "name": "MSFT licenses", "src": "MSFT licenses (owner: Talent)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "TO", "home": "TE", "mo": 103.56, "fy": 1808.58, "act": 1394.34, "m": [321.0, 321.0, 321.0, 0.0, 120.67, 115.33, 97.67, 97.67]}, {"id": "L096", "name": "OpenAI - itcan.ae", "src": "OpenAI - itcan.ae (owner: Talent)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "TO", "home": "TE", "mo": 24.33, "fy": 291.96, "act": 194.64, "m": [24.33, 24.33, 24.33, 24.33, 24.33, 24.33, 24.33, 24.33]}, {"id": "L097", "name": "Pandadoc 1 (to)", "src": "Pandadoc 1 (to) (owner: Talent)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "TO", "home": "TE", "mo": 716.29, "fy": 8594.32, "act": 5729.16, "m": [716.0, 716.0, 716.0, 716.0, 716.29, 716.29, 716.29, 716.29]}, {"id": "L098", "name": "Plumm", "src": "Plumm (owner: Talent)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "TO", "home": "TE", "mo": 1639, "fy": 9834.0, "act": 3278.0, "m": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1639.0, 1639.0]}, {"id": "L099", "name": "Remote", "src": "Remote (owner: Talent)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "TO", "home": "TE", "mo": 1666, "fy": 14994.0, "act": 8330.0, "m": [0.0, 0.0, 0.0, 1666.0, 1666.0, 1666.0, 1666.0, 1666.0]}, {"id": "L100", "name": "Teamtailor", "src": "Teamtailor (owner: Talent)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "TO", "home": "TE", "mo": 978, "fy": 11736.0, "act": 7824.0, "m": [978.0, 978.0, 978.0, 978.0, 978.0, 978.0, 978.0, 978.0]}, {"id": "L101", "name": "Anthropic - Claude Team (itcan)", "src": "Anthropic - Claude Team (itcan) (owner: blank)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "GROUP", "home": "SDM", "mo": 791.5, "fy": 4826.0, "act": 1660.0, "m": [0.0, 0.0, 77.0, 0.0, 0.0, 0.0, 1101.0, 482.0]}, {"id": "L102", "name": "Google Workspace - Itcan", "src": "Google Workspace - Itcan (owner: blank)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "GROUP", "home": "KM", "mo": 5888, "fy": 81771.0, "act": 58219.0, "m": [7913.0, 7982.0, 8220.0, 8220.0, 8220.0, 7234.0, 5292.0, 5138.0]}, {"id": "L103", "name": "Lastpass", "src": "Lastpass (owner: blank)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "GROUP", "home": "KM", "mo": 131, "fy": 1564.0, "act": 1040.0, "m": [123.0, 131.0, 131.0, 131.0, 131.0, 131.0, 131.0, 131.0]}, {"id": "L104", "name": "Sensay.io", "src": "Sensay.io (owner: blank)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "GROUP", "home": "KM", "mo": 0, "fy": -0.31, "act": -0.31, "m": [463.69, 0.0, 0.0, 0.0, -464.0, 0.0, 0.0, 0.0]}, {"id": "L105", "name": "Slack", "src": "Slack (owner: blank)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "GROUP", "home": "INFPACT", "mo": 3523, "fy": 35507.6, "act": 21415.6, "m": [1830.6, 1831.0, 1831.0, 1831.0, 3523.0, 3523.0, 3523.0, 3523.0]}, {"id": "L106", "name": "Zapier", "src": "Zapier (owner: blank)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "GROUP", "home": "KM", "mo": 649, "fy": 7788.0, "act": 5192.0, "m": [649.0, 649.0, 649.0, 649.0, 649.0, 649.0, 649.0, 649.0]}, {"id": "L107", "name": "Zoom", "src": "Zoom (owner: blank)", "cat": "Systems", "entity": "Itcan + CPX", "orig": "GROUP", "home": "KM", "mo": 462, "fy": 6884.0, "act": 5036.0, "m": [730.0, 730.0, 730.0, 730.0, 730.0, 730.0, 328.0, 328.0]}, {"id": "L108", "name": "Digital- Spend ITCAN", "src": "Live (ITCAN+CPXMARS) / Digital- Spend ITCAN", "cat": "Digital Marketing", "entity": "Itcan + CPX", "orig": "DMT", "home": "CPX", "mo": 0, "fy": 7080.42, "act": 7080.42, "m": [3258.0, 1056.0, 1484.5, 1281.92, 0.0, 0.0, 0.0, 0.0]}, {"id": "L109", "name": "Digital- Spend", "src": "Live Moontech / Digital- Spend", "cat": "Digital Marketing", "entity": "Itcan + CPX", "orig": "DMT", "home": "CPX", "mo": 168.63, "fy": 4544.82, "act": 3870.3, "m": [27.0, 891.82, 1079.0, 1184.0, 182.59, 173.49, 321.75, 10.65]}, {"id": "L111", "name": "Maps of Arabia - August", "src": "Maps of Arabia - August", "cat": "Professional", "entity": "Itcan + CPX", "orig": "DMT", "home": "CPX", "mo": 3150, "fy": 15750.0, "act": 3150.0, "m": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 3150.0]}, {"id": "L112", "name": "Professional Expenses - Fincirc / Corproots / Tmam", "src": "Live (ITCAN+CPXMARS) / Professional Expenses - Fincirc / Corproots / Tmam", "cat": "Professional", "entity": "Itcan + CPX", "orig": "FIN", "home": "FIN", "mo": 35884.72, "fy": 394109.78, "act": 250570.9, "m": [31756.7, 31775.0, 31731.0, 45976.63, 1677.4, 31654.17, 46000.0, 30000.0]}, {"id": "L113", "name": "Professional Expenses - Fincirc / Corproots / Tmam", "src": "Live Moontech / Professional Expenses - Fincirc / Corproots / Tmam", "cat": "Professional", "entity": "Itcan + CPX", "orig": "FIN", "home": "FIN", "mo": 13370.17, "fy": 133336.93, "act": 79856.25, "m": [4000.0, 4000.0, 4000.0, 17830.0, 9915.75, 25500.0, 4000.0, 10610.5]}, {"id": "L114", "name": "Professional Expenses - Scrumwheel", "src": "Live (ITCAN+CPXMARS) / Professional Expenses - Scrumwheel", "cat": "Professional", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 7345, "fy": 36725.0, "act": 7345.0, "m": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 7345.0, 0.0]}, {"id": "L115", "name": "Professional Expenses - Techtalent", "src": "Live Moontech / Professional Expenses - Techtalent", "cat": "Professional", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 0, "fy": 15120.0, "act": 15120.0, "m": [0.0, 15120.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"id": "L116", "name": "Professional Expenses - Un1corn", "src": "Live Moontech / Professional Expenses - Un1corn", "cat": "Professional", "entity": "Itcan + CPX", "orig": "SDM", "home": "SDM", "mo": 0, "fy": 4224.0, "act": 4224.0, "m": [4224.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"id": "L117", "name": "Professional Expenses - EGP consultancy", "src": "Live (ITCAN+CPXMARS) / Professional Expenses - EGP consultancy", "cat": "Professional", "entity": "Itcan + CPX", "orig": "GROUP", "home": "TE", "mo": 1452.33, "fy": 16708.32, "act": 10899.0, "m": [1412.0, 1161.0, 1052.0, 1309.0, 1608.0, 1033.78, 1840.94, 1482.28]}, {"id": "L119", "name": "HR Expenses", "src": "Live (ITCAN+CPXMARS) / HR Expenses", "cat": "Miscellaneous", "entity": "Itcan + CPX", "orig": "TD", "home": "TE", "mo": 3427.2, "fy": 33977.94, "act": 20269.14, "m": [1256.67, 3882.33, 1182.67, 1182.54, 2483.34, 5181.17, 1318.54, 3781.88]}, {"id": "L120", "name": "Culture Expense", "src": "Live (ITCAN+CPXMARS) / Culture Expense", "cat": "Miscellaneous", "entity": "Itcan + CPX", "orig": "TE", "home": "TE", "mo": 2583.24, "fy": 38498.42, "act": 28165.46, "m": [7682.0, 3546.0, 6496.0, 1856.94, 834.79, 1704.02, 1757.96, 4287.75]}, {"id": "L121", "name": "HR Expenses", "src": "Live (ITCAN+CPXMARS) / HR Expenses", "cat": "Miscellaneous", "entity": "Itcan + CPX", "orig": "TE", "home": "TE", "mo": 3427.2, "fy": 33977.94, "act": 20269.14, "m": [1256.66, 3882.34, 1182.66, 1182.55, 2483.34, 5181.16, 1318.55, 3781.88]}, {"id": "L122", "name": "HR Expenses", "src": "Live (ITCAN+CPXMARS) / HR Expenses", "cat": "Miscellaneous", "entity": "Itcan + CPX", "orig": "TO", "home": "TE", "mo": 3427.2, "fy": 33977.94, "act": 20269.14, "m": [1256.67, 3882.33, 1182.67, 1182.54, 2483.34, 5181.17, 1318.54, 3781.88]}, {"id": "L123", "name": "Amortisation expense", "src": "Live (ITCAN+CPXMARS) / Amortisation expense", "cat": "Miscellaneous", "entity": "Itcan + CPX", "orig": "GROUP", "home": "FIN", "mo": 2028, "fy": 24506.0, "act": 16394.0, "m": [2113.0, 2113.0, 2028.0, 2028.0, 2028.0, 2028.0, 2028.0, 2028.0]}, {"id": "L124", "name": "Bank charges", "src": "Live (ITCAN+CPXMARS) / Bank charges", "cat": "Miscellaneous", "entity": "Itcan + CPX", "orig": "GROUP", "home": "FIN", "mo": 38626.82, "fy": 347418.0, "act": 192910.72, "m": [48117.0, 6460.0, 8291.0, 9157.68, 5004.59, 22306.67, 89881.48, 3692.3]}, {"id": "L125", "name": "Depreciation", "src": "Live (ITCAN+CPXMARS) / Depreciation", "cat": "Miscellaneous", "entity": "Itcan + CPX", "orig": "GROUP", "home": "FIN", "mo": 844.66, "fy": 10275.02, "act": 6896.38, "m": [1117.0, 1118.0, 976.0, 575.7, 575.7, 759.0, 758.98, 1016.0]}, {"id": "L126", "name": "Employee Insurance", "src": "Live (ITCAN+CPXMARS) / Employee Insurance", "cat": "Miscellaneous", "entity": "Itcan + CPX", "orig": "GROUP", "home": "TE", "mo": 17485.33, "fy": 220523.33, "act": 150582.01, "m": [20065.0, 21501.0, 20851.0, 17893.93, 17815.1, 17815.1, 15398.24, 19242.64]}, {"id": "L127", "name": "Forex Loss", "src": "Live (ITCAN+CPXMARS) / Forex Loss", "cat": "Miscellaneous", "entity": "Itcan + CPX", "orig": "GROUP", "home": "FIN", "mo": 12991.2, "fy": 131243.83, "act": 79279.03, "m": [11567.0, 6423.0, 11732.0, 4834.11, 5749.32, 7782.41, 17271.79, 13919.4]}, {"id": "L128", "name": "Gratuity+DEWS", "src": "Live (ITCAN+CPXMARS) / Gratuity+DEWS", "cat": "Miscellaneous", "entity": "Itcan + CPX", "orig": "GROUP", "home": "TE", "mo": 8315.49, "fy": 116004.11, "act": 82742.15, "m": [10649.0, 9619.0, 10649.0, 16064.42, 10814.25, 9646.59, 5559.27, 9740.62]}, {"id": "L129", "name": "Interest Expense", "src": "Live (ITCAN+CPXMARS) / Interest Expense", "cat": "Miscellaneous", "entity": "Itcan + CPX", "orig": "GROUP", "home": "FIN", "mo": 55727.28, "fy": 668914.88, "act": 446005.76, "m": [49482.0, 66795.0, 53922.0, 56517.57, 52107.34, 51126.0, 44962.0, 71093.85]}, {"id": "L130", "name": "Learning & Development", "src": "Live (ITCAN+CPXMARS) / Learning & Development", "cat": "Miscellaneous", "entity": "Itcan + CPX", "orig": "GROUP", "home": "TE", "mo": 176.76, "fy": 2630.57, "act": 1923.53, "m": [1570.0, 0.0, 0.0, 0.0, 0.0, 180.0, 173.53, 0.0]}, {"id": "L131", "name": "Legal Expenses", "src": "Live (ITCAN+CPXMARS) / Legal Expenses", "cat": "Miscellaneous", "entity": "Itcan + CPX", "orig": "GROUP", "home": "TE", "mo": 5231.69, "fy": 63682.59, "act": 42755.83, "m": [4544.0, 10446.0, 4081.0, 4001.58, 3988.17, 4333.69, 5660.14, 5701.25]}, {"id": "L132", "name": "Office expenses", "src": "Live (ITCAN+CPXMARS) / Office expenses", "cat": "Miscellaneous", "entity": "Itcan + CPX", "orig": "GROUP", "home": "TE", "mo": 1611.43, "fy": 23496.77, "act": 17051.05, "m": [2364.0, 2883.0, 4470.0, 2267.66, 232.09, 3069.11, 204.11, 1561.08]}, {"id": "L133", "name": "Other expenses", "src": "Live (ITCAN+CPXMARS) / Other expenses", "cat": "Miscellaneous", "entity": "Itcan + CPX", "orig": "GROUP", "home": "FIN", "mo": 1564.9, "fy": 42907.49, "act": 36647.89, "m": [22028.0, 5976.0, 3294.0, 655.18, 0.0, 651.0, 1631.57, 2412.14]}, {"id": "L134", "name": "Professional Expenses - Alaman Awal (office expense)", "src": "Live (ITCAN+CPXMARS) / Professional Expenses - Alaman Awal (office expense)", "cat": "Miscellaneous", "entity": "Itcan + CPX", "orig": "GROUP", "home": "TE", "mo": 0, "fy": 565.0, "act": 565.0, "m": [0.0, 565.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"id": "L135", "name": "Rent", "src": "Live (ITCAN+CPXMARS) / Rent", "cat": "Miscellaneous", "entity": "Itcan + CPX", "orig": "GROUP", "home": "TE", "mo": 15959.33, "fy": 187544.15, "act": 123706.83, "m": [17406.0, 14275.0, 15017.0, 15242.0, 13888.84, 14634.61, 15665.0, 17578.38]}, {"id": "L136", "name": "Travel expenses", "src": "Live (ITCAN+CPXMARS) / Travel expenses", "cat": "Miscellaneous", "entity": "Itcan + CPX", "orig": "GROUP", "home": "STR", "mo": 6885.34, "fy": 55143.66, "act": 27602.3, "m": [2053.17, 3084.0, 0.0, 2381.45, 6313.0, 12660.0, 0.0, 1110.68]}, {"id": "L137", "name": "Utilities", "src": "Live (ITCAN+CPXMARS) / Utilities", "cat": "Miscellaneous", "entity": "Itcan + CPX", "orig": "GROUP", "home": "TE", "mo": 6216.91, "fy": 72721.28, "act": 47853.64, "m": [5968.0, 5980.0, 6241.0, 7043.93, 3969.98, 4877.69, 7202.7, 6570.34]}, {"id": "L138", "name": "Visa Expenses", "src": "Live (ITCAN+CPXMARS) / Visa Expenses", "cat": "Miscellaneous", "entity": "Itcan + CPX", "orig": "GROUP", "home": "TE", "mo": 3500, "fy": 67900.0, "act": 53900.0, "m": [7400.0, 4000.0, 0.0, 13600.0, 21900.0, 2000.0, 0.0, 5000.0]}, {"id": "L139", "name": "(contact TR for disclosure)", "src": "Sheet1 row 23 - BD", "cat": "Payroll", "entity": "MoonTech", "orig": "BD", "home": "PAM", "mo": 18060.22, "fy": 197734.55, "act": 125493.67, "m": [3279.0, 15534.0, 17500.0, 17500.0, 17500.0, 18051.19, 18051.19, 18078.29]}, {"id": "L140", "name": "(contact TR for disclosure)", "src": "Sheet1 row 20 - INFPACT", "cat": "Payroll", "entity": "MoonTech", "orig": "INFPACT", "home": "INFPACT", "mo": 40860.42, "fy": 485282.23, "act": 321840.55, "m": [39242.5, 39242.5, 39063.05, 40878.82, 40832.41, 40832.41, 40832.41, 40916.45]}, {"id": "L141", "name": "(contact TR for disclosure)", "src": "Sheet1 row 21 - MOON", "cat": "Payroll", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 34926.85, "fy": 364876.94, "act": 225169.54, "m": [22000.0, 22000.0, 22000.0, 22672.0, 31717.0, 35161.56, 35161.56, 34457.42]}, {"id": "L142", "name": "(contact TR for disclosure)", "src": "Sheet1 row 22 - PAM", "cat": "Payroll", "entity": "MoonTech", "orig": "PAM", "home": "PAM", "mo": 53156.57, "fy": 677541.51, "act": 464915.23, "m": [57912.7, 65299.7, 64337.26, 64417.0, 53478.86, 54494.56, 52187.98, 52787.17]}, {"id": "L143", "name": "(contact TR for disclosure)", "src": "Live Moontech / Advisory Board Remuneration - Alex Alwan", "cat": "Payroll", "entity": "MoonTech", "orig": "GROUP", "home": "SDM", "mo": 20000, "fy": 220000.0, "act": 140000.0, "m": [0.0, 20000.0, 20000.0, 20000.0, 20000.0, 20000.0, 20000.0, 20000.0]}, {"id": "L145", "name": "(contact TR for disclosure)", "src": "Live Moontech / Advisory Board Remuneration - Kareem", "cat": "Payroll", "entity": "MoonTech", "orig": "GROUP", "home": "FIN", "mo": 7345, "fy": 88140.0, "act": 58760.0, "m": [7345.0, 7345.0, 7345.0, 7345.0, 7345.0, 7345.0, 7345.0, 7345.0]}, {"id": "L147", "name": "(contact TR for disclosure)", "src": "Live Moontech / Advisory Board Remuneration - Mohamed G Ahmed Elabd", "cat": "Payroll", "entity": "MoonTech", "orig": "GROUP", "home": "DMT", "mo": 13000, "fy": 91000.0, "act": 39000.0, "m": [0.0, 0.0, 0.0, 0.0, 0.0, 13000.0, 13000.0, 13000.0]}, {"id": "L148", "name": "(contact TR for disclosure)", "src": "Live Moontech / Advisory Board Remuneration - Muzna", "cat": "Payroll", "entity": "MoonTech", "orig": "GROUP", "home": "PAM", "mo": 10000, "fy": 99677.0, "act": 59677.0, "m": [0.0, 0.0, 9677.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0]}, {"id": "L150", "name": "(contact TR for disclosure)", "src": "Live Moontech / Advisory Board Remuneration - Sergey", "cat": "Payroll", "entity": "MoonTech", "orig": "GROUP", "home": "SDM", "mo": 10000, "fy": 110000.0, "act": 70000.0, "m": [10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 10000.0, 0.0]}, {"id": "L151", "name": "(contact TR for disclosure)", "src": "Live Moontech / Advisory Board Remuneration - Victor", "cat": "Payroll", "entity": "MoonTech", "orig": "GROUP", "home": "STR", "mo": 5000, "fy": 60000.0, "act": 40000.0, "m": [5000.0, 5000.0, 5000.0, 5000.0, 5000.0, 5000.0, 5000.0, 5000.0]}, {"id": "L152", "name": "Abdulrahman Farrag", "src": "INFPACT / Abdulrahman Farrag", "cat": "Perdiem", "entity": "MoonTech", "orig": "INFPACT", "home": "INFPACT", "mo": 1274, "fy": 19373.0, "act": 14277.0, "m": [4771.0, 1274.0, 1568.0, 1274.0, 1568.0, 1274.0, 1274.0, 1274.0]}, {"id": "L153", "name": "Anas Ahmed Mohamed Abo Al-Hassan Ali", "src": "INFPACT / Anas Ahmed Mohamed Abo Al-Hassan Ali", "cat": "Perdiem", "entity": "MoonTech", "orig": "INFPACT", "home": "INFPACT", "mo": 686, "fy": 10703.0, "act": 7959.0, "m": [2569.0, 686.0, 980.0, 686.0, 980.0, 686.0, 686.0, 686.0]}, {"id": "L154", "name": "Mohammed Ali", "src": "INFPACT / Mohammed Ali", "cat": "Perdiem", "entity": "MoonTech", "orig": "INFPACT", "home": "INFPACT", "mo": 1470, "fy": 21675.0, "act": 15795.0, "m": [5505.0, 1470.0, 1470.0, 1470.0, 1470.0, 1470.0, 1470.0, 1470.0]}, {"id": "L155", "name": "Aalaa Muhamed", "src": "MOON / Aalaa Muhamed", "cat": "Perdiem", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 0, "fy": 1310.07, "act": 1310.07, "m": [436.69, 436.69, 436.69, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"id": "L156", "name": "Aisa", "src": "MOON / Aisa", "cat": "Perdiem", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 0, "fy": 23.52, "act": 23.52, "m": [7.84, 7.84, 7.84, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"id": "L157", "name": "Aisha Obaid (Postpaid)", "src": "MOON / Aisha Obaid (Postpaid)", "cat": "Perdiem", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 261.66, "fy": 4365.9, "act": 3319.26, "m": [344.96, 1043.7, 1027.04, 44.1, 336.14, 170.52, 0.0, 352.8]}, {"id": "L158", "name": "Amjad", "src": "MOON / Amjad", "cat": "Perdiem", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 294, "fy": 3528.0, "act": 2352.0, "m": [294.0, 294.0, 294.0, 294.0, 294.0, 294.0, 294.0, 294.0]}, {"id": "L159", "name": "Ammar Yasser", "src": "MOON / Ammar Yasser", "cat": "Perdiem", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 7340, "fy": 54804.11, "act": 25444.11, "m": [0.0, 0.0, 0.0, 0.0, 3424.11, 7340.0, 7340.0, 7340.0]}, {"id": "L160", "name": "Aseel", "src": "MOON / Aseel", "cat": "Perdiem", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 2624.77, "fy": 34758.98, "act": 24259.9, "m": [3292.8, 3067.4, 2993.9, 4733.4, 2298.1, 2557.8, 2548.0, 2768.5]}, {"id": "L161", "name": "Farah Abdelgaffar", "src": "MOON / Farah Abdelgaffar", "cat": "Perdiem", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 0, "fy": 873.38, "act": 873.38, "m": [0.0, 436.69, 436.69, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"id": "L162", "name": "Hadeel", "src": "MOON / Hadeel", "cat": "Perdiem", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 1568, "fy": 18816.0, "act": 12544.0, "m": [1568.0, 1568.0, 1568.0, 1568.0, 1568.0, 1568.0, 1568.0, 1568.0]}, {"id": "L163", "name": "Hagar Amr", "src": "MOON / Hagar Amr", "cat": "Perdiem", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 0, "fy": 1661.03, "act": 1661.03, "m": [495.06, 480.36, 467.26, 218.35, 0.0, 0.0, 0.0, 0.0]}, {"id": "L164", "name": "Haifa", "src": "MOON / Haifa", "cat": "Perdiem", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 142.1, "fy": 1788.5, "act": 1220.1, "m": [230.3, 225.4, 132.3, 205.8, 142.1, 122.5, 161.7, 0.0]}, {"id": "L165", "name": "Hana Khaleed", "src": "MOON / Hana Khaleed", "cat": "Perdiem", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 0, "fy": 1376.3, "act": 1376.3, "m": [519.66, 627.38, 229.26, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"id": "L166", "name": "Ibrahim Maher", "src": "MOON / Ibrahim Maher", "cat": "Perdiem", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 1525.21, "fy": 24799.24, "act": 18698.4, "m": [3077.2, 4229.68, 3053.68, 1394.54, 2367.68, 1410.22, 2238.32, 927.08]}, {"id": "L167", "name": "Jassmin", "src": "MOON / Jassmin", "cat": "Perdiem", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 511.23, "fy": 4646.82, "act": 2601.9, "m": [0.0, 0.0, 176.4, 196.0, 695.8, 289.1, 828.1, 416.5]}, {"id": "L168", "name": "Leena", "src": "MOON / Leena", "cat": "Perdiem", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 686, "fy": 8232.0, "act": 5488.0, "m": [686.0, 686.0, 686.0, 686.0, 686.0, 686.0, 686.0, 686.0]}, {"id": "L169", "name": "Manar Mostafa", "src": "MOON / Manar Mostafa", "cat": "Perdiem", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 43.67, "fy": 2931.75, "act": 2757.07, "m": [519.99, 519.99, 800.04, 436.69, 436.69, 0.0, 0.0, 43.67]}, {"id": "L170", "name": "Maram", "src": "MOON / Maram", "cat": "Perdiem", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 2278.17, "fy": 32242.64, "act": 23129.96, "m": [3665.2, 4319.84, 3045.84, 2332.4, 2932.16, 2471.56, 2426.48, 1936.48]}, {"id": "L171", "name": "Maria", "src": "MOON / Maria", "cat": "Perdiem", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 240.1, "fy": 2871.4, "act": 1911.0, "m": [161.7, 480.2, 205.8, 151.9, 191.1, 225.4, 294.0, 200.9]}, {"id": "L172", "name": "Maria Ahmed", "src": "MOON / Maria Ahmed", "cat": "Perdiem", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 0, "fy": 3920.0, "act": 3920.0, "m": [0.0, 1960.0, 1960.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"id": "L173", "name": "Mayram", "src": "MOON / Mayram", "cat": "Perdiem", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 321.93, "fy": 3107.58, "act": 1819.86, "m": [294.0, 294.0, 294.0, 0.0, 294.0, 0.0, 294.0, 349.86]}, {"id": "L174", "name": "Mehad Abd Elhameed", "src": "MOON / Mehad Abd Elhameed", "cat": "Perdiem", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 686, "fy": 8232.0, "act": 5488.0, "m": [686.0, 686.0, 686.0, 686.0, 686.0, 686.0, 686.0, 686.0]}, {"id": "L175", "name": "Millisia atef", "src": "MOON / Millisia atef", "cat": "Perdiem", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 473.08, "fy": 5676.96, "act": 3784.64, "m": [473.08, 473.08, 473.08, 473.08, 473.08, 473.08, 473.08, 473.08]}, {"id": "L176", "name": "Mireille George Kamel", "src": "MOON / Mireille George Kamel", "cat": "Perdiem", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 655.71, "fy": 8116.06, "act": 5493.22, "m": [784.61, 1005.58, 605.55, 429.39, 700.97, 711.98, 711.98, 543.16]}, {"id": "L177", "name": "Nadine Elansary", "src": "MOON / Nadine Elansary", "cat": "Perdiem", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 436.69, "fy": 5403.38, "act": 3656.62, "m": [475.89, 490.59, 506.69, 436.69, 436.69, 436.69, 436.69, 436.69]}, {"id": "L178", "name": "Noura Alajmi (Postpaid Ads recording Rug", "src": "MOON / Noura Alajmi (Postpaid Ads recording Rug", "cat": "Perdiem", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 1568, "fy": 18816.0, "act": 12544.0, "m": [1568.0, 1568.0, 1568.0, 1568.0, 1568.0, 1568.0, 1568.0, 1568.0]}, {"id": "L179", "name": "Nourhan Mansour", "src": "MOON / Nourhan Mansour", "cat": "Perdiem", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 0, "fy": 570.61, "act": 570.61, "m": [570.61, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"id": "L180", "name": "Reem", "src": "MOON / Reem", "cat": "Perdiem", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 122.5, "fy": 2067.8, "act": 1577.8, "m": [0.0, 509.6, 504.7, 249.9, 191.1, 122.5, 0.0, 0.0]}, {"id": "L181", "name": "Shoug", "src": "MOON / Shoug", "cat": "Perdiem", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 187.83, "fy": 2260.52, "act": 1509.2, "m": [0.0, 392.0, 196.0, 181.3, 176.4, 215.6, 196.0, 151.9]}, {"id": "L182", "name": "Sohyala Mohamed", "src": "MOON / Sohyala Mohamed", "cat": "Perdiem", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 441.6, "fy": 5413.34, "act": 3646.94, "m": [470.99, 466.09, 511.69, 436.69, 436.69, 436.69, 436.69, 451.41]}, {"id": "L183", "name": "HubSpot", "src": "HubSpot (one subscription, 3-way owner split)", "cat": "Systems", "entity": "MoonTech", "orig": "BD", "home": "PAM", "mo": 1948.73, "fy": 23764.03, "act": 15969.11, "m": [2023.0, 2023.0, 2024.75, 2027.43, 2024.75, 2010.75, 1915.43, 1920.0]}, {"id": "L184", "name": "SEMrush", "src": "SEMrush (owner: Merchant CAC)", "cat": "Systems", "entity": "MoonTech", "orig": "BD", "home": "PAM", "mo": 270, "fy": 2430.0, "act": 1350.0, "m": [0.0, 0.0, 0.0, 270.0, 270.0, 270.0, 270.0, 270.0]}, {"id": "L185", "name": "Front", "src": "Front (owner: Creator CAC)", "cat": "Systems", "entity": "MoonTech", "orig": "INFPACT", "home": "INFPACT", "mo": 2851, "fy": 34212.0, "act": 22808.0, "m": [2851.0, 2851.0, 2851.0, 2851.0, 2851.0, 2851.0, 2851.0, 2851.0]}, {"id": "L186", "name": "HubSpot", "src": "HubSpot (one subscription, 3-way owner split)", "cat": "Systems", "entity": "MoonTech", "orig": "INFPACT", "home": "INFPACT", "mo": 1948.72, "fy": 23763.95, "act": 15969.07, "m": [2023.0, 2023.0, 2024.75, 2027.41, 2024.75, 2010.75, 1915.41, 1920.0]}, {"id": "L187", "name": "MoEngage", "src": "MoEngage (owner: Total CAC)", "cat": "Systems", "entity": "MoonTech", "orig": "INFPACT", "home": "INFPACT", "mo": 2269.33, "fy": 27231.96, "act": 18154.64, "m": [2269.33, 2269.33, 2269.33, 2269.33, 2269.33, 2269.33, 2269.33, 2269.33]}, {"id": "L188", "name": "Number- TM (Sendbee)", "src": "Number- TM (Sendbee) (owner: Creator CAC)", "cat": "Systems", "entity": "MoonTech", "orig": "INFPACT", "home": "INFPACT", "mo": 755.67, "fy": 9623.32, "act": 6600.64, "m": [891.33, 885.97, 796.0, 823.0, 937.33, 780.67, 819.67, 666.67]}, {"id": "L189", "name": "Superchat (Front alternative)", "src": "Superchat (Front alternative) (owner: Creator CAC)", "cat": "Systems", "entity": "MoonTech", "orig": "INFPACT", "home": "INFPACT", "mo": 0, "fy": 0.0, "act": 0.0, "m": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"id": "L190", "name": "Twilio", "src": "Twilio (owner: Creator CAC)", "cat": "Systems", "entity": "MoonTech", "orig": "INFPACT", "home": "INFPACT", "mo": 100, "fy": 965.3, "act": 565.3, "m": [110.0, 119.3, 0.0, 122.0, 114.0, 0.0, 0.0, 100.0]}, {"id": "L191", "name": "Front", "src": "Front (owner: Creator CAC)", "cat": "Systems", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 2851, "fy": 34212.0, "act": 22808.0, "m": [2851.0, 2851.0, 2851.0, 2851.0, 2851.0, 2851.0, 2851.0, 2851.0]}, {"id": "L192", "name": "HubSpot", "src": "HubSpot (one subscription, 3-way owner split)", "cat": "Systems", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 1948.72, "fy": 23763.95, "act": 15969.07, "m": [2023.0, 2023.0, 2024.75, 2027.41, 2024.75, 2010.75, 1915.41, 1920.0]}, {"id": "L193", "name": "Interakt (Haptik)", "src": "Interakt (Haptik) (owner: Creator CAC)", "cat": "Systems", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 0, "fy": 1113.0, "act": 1113.0, "m": [0.0, 379.0, 734.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"id": "L194", "name": "MoEngage", "src": "MoEngage (owner: Total CAC)", "cat": "Systems", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 2269.33, "fy": 27231.96, "act": 18154.64, "m": [2269.33, 2269.33, 2269.33, 2269.33, 2269.33, 2269.33, 2269.33, 2269.33]}, {"id": "L195", "name": "Number- TM (Sendbee)", "src": "Number- TM (Sendbee) (owner: Creator CAC)", "cat": "Systems", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 755.67, "fy": 9623.32, "act": 6600.64, "m": [891.33, 885.97, 796.0, 823.0, 937.33, 780.67, 819.67, 666.67]}, {"id": "L196", "name": "Superchat (Front alternative)", "src": "Superchat (Front alternative) (owner: Creator CAC)", "cat": "Systems", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 0, "fy": 0.0, "act": 0.0, "m": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"id": "L197", "name": "Twilio", "src": "Twilio (owner: Creator CAC)", "cat": "Systems", "entity": "MoonTech", "orig": "MOON", "home": "MOON", "mo": 100, "fy": 965.3, "act": 565.3, "m": [110.0, 119.3, 0.0, 122.0, 114.0, 0.0, 0.0, 100.0]}, {"id": "L198", "name": "Anthropic - MoonTech (PAM)", "src": "Anthropic - MoonTech (PAM) (owner: Merchant CAC)", "cat": "Systems", "entity": "MoonTech", "orig": "PAM", "home": "PAM", "mo": 77, "fy": 462.0, "act": 154.0, "m": [0.0, 0.0, 0.0, 0.0, 0.0, 77.0, 77.0, 0.0]}, {"id": "L199", "name": "Pandadoc 2 (pam)", "src": "Pandadoc 2 (pam) (owner: Total CAC)", "cat": "Systems", "entity": "MoonTech", "orig": "PAM", "home": "PAM", "mo": 539.71, "fy": 6475.68, "act": 4316.84, "m": [539.5, 539.5, 539.5, 539.5, 539.71, 539.71, 539.71, 539.71]}, {"id": "L200", "name": "Buffer", "src": "Buffer (owner: Content)", "cat": "Systems", "entity": "MoonTech", "orig": "GROUP", "home": "DMT", "mo": 102.67, "fy": 1268.68, "act": 858.0, "m": [110.0, 110.0, 110.0, 110.0, 110.0, 110.0, 88.0, 110.0]}, {"id": "L201", "name": "Professional Expenses - MoonTech Logo Design", "src": "Live Moontech / Professional Expenses - MoonTech Logo Design", "cat": "Professional", "entity": "MoonTech", "orig": "GROUP", "home": "DMT", "mo": 4407, "fy": 22035.0, "act": 4407.0, "m": [0.0, 0.0, 0.0, 0.0, 0.0, 4407.0, 0.0, 0.0]}, {"id": "L203", "name": "Professional Expenses - WESAM, INC", "src": "Live Moontech / Professional Expenses - WESAM, INC", "cat": "Professional", "entity": "MoonTech", "orig": "GROUP", "home": "TE", "mo": 1101.75, "fy": 5508.75, "act": 1101.75, "m": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1101.75]}, {"id": "L204", "name": "Amortisation expense", "src": "Live Moontech / Amortisation expense", "cat": "Miscellaneous", "entity": "MoonTech", "orig": "GROUP", "home": "FIN", "mo": 0, "fy": 0.0, "act": 0.0, "m": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, {"id": "L205", "name": "Bank charges", "src": "Live Moontech / Bank charges", "cat": "Miscellaneous", "entity": "MoonTech", "orig": "GROUP", "home": "FIN", "mo": 10848.31, "fy": 134679.49, "act": 91286.25, "m": [1286.0, 13788.0, 14640.0, 14832.46, 14194.86, 11800.0, 10909.67, 9835.26]}, {"id": "L207", "name": "Forex Loss", "src": "Live Moontech / Forex Loss", "cat": "Miscellaneous", "entity": "MoonTech", "orig": "GROUP", "home": "FIN", "mo": 3393.81, "fy": 29778.34, "act": 16203.1, "m": [386.0, 1651.0, 2068.0, 727.89, 1188.77, 1852.3, 3928.33, 4400.81]}, {"id": "L208", "name": "Gratuity+DEWS", "src": "Live Moontech / Gratuity+DEWS", "cat": "Miscellaneous", "entity": "MoonTech", "orig": "GROUP", "home": "TE", "mo": 2744.8, "fy": 40495.36, "act": 29516.16, "m": [918.0, 1383.0, 1579.0, 15759.29, 1642.47, 2510.92, 2577.12, 3146.36]}, {"id": "L209", "name": "Legal Expenses", "src": "Live Moontech / Legal Expenses", "cat": "Miscellaneous", "entity": "MoonTech", "orig": "GROUP", "home": "TE", "mo": 911.16, "fy": 9240.21, "act": 5595.57, "m": [520.0, 520.0, 520.0, 520.0, 782.08, 782.08, 1169.33, 782.08]}, {"id": "L210", "name": "Marketing events", "src": "Live Moontech / Marketing events", "cat": "Miscellaneous", "entity": "MoonTech", "orig": "GROUP", "home": "DMT", "mo": 14411.2, "fy": 72056.0, "act": 14411.2, "m": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 14411.2]}, {"id": "L212", "name": "Other expenses", "src": "Live Moontech / Other expenses", "cat": "Miscellaneous", "entity": "MoonTech", "orig": "GROUP", "home": "FIN", "mo": 1597.29, "fy": 30251.45, "act": 23862.29, "m": [22265.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1597.29]}, {"id": "L213", "name": "Rent", "src": "Live Moontech / Rent", "cat": "Miscellaneous", "entity": "MoonTech", "orig": "GROUP", "home": "TE", "mo": 1942.5, "fy": 23158.5, "act": 15388.5, "m": [1850.0, 1850.0, 1976.0, 1942.5, 1942.5, 1942.5, 1942.5, 1942.5]}, {"id": "L214", "name": "Travel expenses", "src": "Live Moontech / Travel expenses", "cat": "Miscellaneous", "entity": "MoonTech", "orig": "GROUP", "home": "STR", "mo": 1869.16, "fy": 9345.8, "act": 1869.16, "m": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1869.16, 0.0]}, {"id": "L216", "name": "Visa Expenses", "src": "Live Moontech / Visa Expenses", "cat": "Miscellaneous", "entity": "MoonTech", "orig": "GROUP", "home": "TE", "mo": 0, "fy": 15489.0, "act": 15489.0, "m": [5320.0, 6740.0, 2739.0, 0.0, 690.0, 0.0, 0.0, 0.0]}, {"id": "L217", "name": "(contact TR for disclosure)", "src": "Team payroll — CPX (reclassified from OPR, Oct 2026 correction)", "cat": "Payroll", "entity": "Itcan + CPX", "orig": "CPX", "home": "CPX", "mo": 30000, "fy": 279937.15, "act": 159937.15, "m": [14838.6, 14838.6, 14282.09, 13043.54, 12934.32, 29958.49, 29986.81, 30054.7]}];
+
+const GROUP = 'GROUP';
+const CATS = ['Payroll','Perdiem','Systems','Digital Marketing','Professional','Miscellaneous'];
+const CCOL = {'Payroll':'var(--c-pay)','Perdiem':'var(--c-per)','Systems':'var(--c-sys)','Digital Marketing':'var(--c-dm)','Professional':'var(--c-pro)','Miscellaneous':'var(--c-msc)'};
+const CHEX = {'Payroll':'#FA5523','Perdiem':'#27405F','Systems':'#5B6672','Digital Marketing':'#1F6B4A','Professional':'#1A1F28','Miscellaneous':'#9AA3AE'};
+const ACTUAL_UPTO = 8;
+const HORIZON = 24;
+const LS_KEY = 'itcan-cost-board-LOCKED-2027-v1';
+const DEFAULT_L = {"MOON": "Marah", "STR": "Haneen", "FIN": "Haseeb", "SDM": "Alex", "PAM": "Mansour", "INFPACT": "Amal", "KM": "Sam", "CPX": "Rasha", "TE": "Amr", "DMT": "Sam"};
+const DEFAULT_R = {"SDM": "Product", "MOON": "Creators Op", "PAM": "Merchant- CSM + BD", "INFPACT": "Creators Acq", "CPX": "CPX- (DMT+ MARS+ CPX)", "TE": "OPR (TD + TE + OPR)", "DMT": "Marketing (design))"};
+
+const PRESET_M = ['Alex','Haseeb','Arjun','Amr','Mansour','Nick','Wessam'];
+const PRESET_F = ['Rasha','Sam','Marah','Haneen','Snetha','Luluah','Roula','Amal'];
+const AVA_COLS = ['#FA5523','#2FA37C','#8B6FD0','#E45C90','#3D4E68','#B7791F','#12805A'];
+const SER_COLS = ['#FA5523','#8B6FD0','#2FA37C','#E45C90','#3D4E68','#F5915F','#B7791F','#5B8FC7','#8A5A44','#12805A','#C43B1E','#64748B'];
+
+const byId = {};
+RAW.forEach(l => byId[l.id] = l);
+const teamIds = [...new Set(RAW.filter(l => l.home !== GROUP).map(l => l.home))];
+
+let state = { a:{}, l:{}, c:[], p:[], r:{}, h:[], gs:[], gl:null, um:[] };  // gl: edited guidelines (null = use default)
+const openCat = new Set(); // 'CENTER|Category' expanded
+const openCl  = new Set(); // 'CENTER|Cluster' expanded advisory widget
+let lsOk = true;
+
+function loadState(){
+  // always seed the locked baseline first
+  state.l = Object.assign({}, DEFAULT_L);
+  state.r = Object.assign({}, DEFAULT_R);
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(raw){ const s = JSON.parse(raw);
+      if(s && typeof s==='object'){
+        state.a = s.a||{}; state.l = s.l||Object.assign({},DEFAULT_L);
+        state.c = Array.isArray(s.c)? s.c : [];
+        state.p = Array.isArray(s.p)? s.p : [];
+        state.r = s.r||Object.assign({},DEFAULT_R);
+        state.h = Array.isArray(s.h)? s.h : [];
+        state.gs = Array.isArray(s.gs)? s.gs : [];
+        state.um = Array.isArray(s.um)? s.um : [];
+        state.gl = (s.gl && typeof s.gl==='object') ? s.gl : null;
+      } }
+  }catch(e){ lsOk = false; }
+}
+function saveState(){
+  try{
+    localStorage.setItem(LS_KEY, JSON.stringify(state));
+    note('Saved · ' + new Date().toTimeString().slice(0,5));
+  }catch(e){ lsOk = false; note('Local save unavailable — use Export'); }
+}
+function note(msg){ document.getElementById('savenote').textContent = msg; }
+
+const VIS = () => RAW.filter(l => !state.h.includes(l.id));
+const cur = l => state.a[l.id] || l.home;
+const dn = t => state.r[t] || t;
+const USD_RATE = 3.6725;              // 1 USD = 3.6725 AED
+let CCY = 'AED';                      // active display currency
+function cx(v){ return CCY === 'USD' ? v / USD_RATE : v; }   // convert AED-based value
+const ccyLabel = () => CCY;
+const ccyPre = () => (CCY === 'USD' ? '$' : 'AED\u00A0');   // $ or AED+nbsp
+const fmt = n => ccyPre() + Math.round(cx(n)).toLocaleString('en-US');
+function fmtK(n){
+  n = cx(n);
+  const a = Math.abs(n); const p = ccyPre();
+  if(a >= 1e6) return p + (n/1e6).toFixed(2).replace(/\.?0+$/,'') + 'M';
+  if(a >= 1e3) return p + (n/1e3).toFixed(1).replace(/\.0$/,'') + 'K';
+  return p + Math.round(n).toLocaleString('en-US');
+}
+const fmtW = n => { const v = cx(n); const p = ccyPre(); return p + (Math.abs(v) >= 500 ? Math.round(v/1000).toLocaleString('en-US') + 'K' : Math.round(v).toLocaleString('en-US')); };
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function allCenters(){ return teamIds.concat(state.c); }
+function linesOf(c){ return VIS().filter(l => cur(l) === c); }
+const moTotal = ls => ls.reduce((s,l)=>s+l.mo,0);
+const fyTotal = ls => ls.reduce((s,l)=>s+l.fy,0);
+
+const openCards = new Set();
+
+/* ---------- people & avatars ---------- */
+function people(){
+  const out = [];
+  PRESET_M.forEach(n => out.push({n, g:'m'}));
+  PRESET_F.forEach(n => out.push({n, g:'f'}));
+  state.p.forEach(p => out.push(p));
+  return out;
+}
+function genderOf(name){
+  const p = people().find(x => x.n === name);
+  return p ? p.g : 'm';
+}
+function avaColor(name){
+  let h = 0; for(let i=0;i<name.length;i++) h = (h*31 + name.charCodeAt(i)) >>> 0;
+  return AVA_COLS[h % AVA_COLS.length];
+}
+function avatar(name){
+  const g = genderOf(name);
+  const glyph = g === 'f'
+    ? '<svg viewBox="0 0 24 24"><path d="M12 2.6c-3.6 0-6 2.6-6 6 0 2.2.8 3.7.8 3.7.5-2.7 2-3.8 5.2-3.8s4.7 1.1 5.2 3.8c0 0 .8-1.5.8-3.7 0-3.4-2.4-6-6-6Z" fill="#fff" opacity=".85"/><circle cx="12" cy="9.6" r="3" fill="#fff"/><path d="M4.6 21c.9-3.7 3.9-5.5 7.4-5.5s6.5 1.8 7.4 5.5Z" fill="#fff"/></svg>'
+    : '<svg viewBox="0 0 24 24"><circle cx="12" cy="8.4" r="3.4" fill="#fff"/><path d="M4.6 21c.9-3.9 3.9-5.8 7.4-5.8s6.5 1.9 7.4 5.8Z" fill="#fff"/></svg>';
+  return '<span class="ava" style="background:'+avaColor(name)+'" aria-hidden="true">'+glyph+'</span>';
+}
+
+/* ---------- views ---------- */
+function showView(k){
+  document.querySelectorAll('.view').forEach(v => v.classList.toggle('on', v.id === 'view-'+k));
+  document.querySelectorAll('nav button.navlink[data-view]').forEach(b => b.classList.toggle('active', b.dataset.view === k));
+  if(k === 'growth') renderGrowth();
+  if(k === 'rules') renderRules();
+  if(k === 'umbrella') renderUmbrella();
+}
+document.querySelectorAll('nav button.navlink[data-view]').forEach(b =>
+  b.addEventListener('click', () => showView(b.dataset.view)));
+
+/* ---------- series ---------- */
+function seriesFor(pool){
+  const out = [];
+  for(let i=0;i<HORIZON;i++){
+    if(i < ACTUAL_UPTO) out.push(pool.reduce((s,l)=>s+(l.m[i]||0),0));
+    else out.push(pool.reduce((s,l)=>s+l.mo,0));
+  }
+  return out;
+}
+const MONLAB = (()=>{ const M=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const out=[]; for(let i=0;i<HORIZON;i++){ out.push(M[i%12]+"'"+(i<12?'26':'27')); } return out; })();
+
+/* ---------- board 1 ---------- */
+function renderCat(){
+  const V = VIS();
+  const rows = CATS.map(c => {
+    const ls = V.filter(l => l.cat === c);
+    return {c, n: ls.length, mo: moTotal(ls)};
+  }).sort((a,b)=>b.mo-a.mo);
+  const totMo = rows.reduce((s,r)=>s+r.mo,0);
+  const max = Math.max(...rows.map(r=>r.mo),1);
+
+  document.getElementById('catBars').innerHTML = rows.map(r =>
+    '<div class="crow big static"><span class="cl">'+esc(r.c)+'</span>' +
+    '<div class="cbar"><i style="width:'+(r.mo/max*100)+'%; background:'+CCOL[r.c]+'" title="'+fmt(r.mo)+' /mo · '+r.n+' lines"></i></div>' +
+    '<span class="cv num">'+fmtW(r.mo)+'</span></div>').join('');
+  document.getElementById('catTot').innerHTML =
+    'Total <span class="sub">'+V.length+' cost lines</span><span class="sp"></span>'+fmt(totMo)+' /mo <span class="sub">· '+fmtK(totMo*12)+' annualised</span>';
+
+  // stacked columns Jan-Dec 2026
+  const vals = {};
+  CATS.forEach(c => {
+    const ls = V.filter(l=>l.cat===c);
+    vals[c] = [];
+    for(let i=0;i<ACTUAL_UPTO;i++) vals[c].push(ls.reduce((s,l)=>s+(l.m[i]||0),0));
+  });
+  const tot = []; for(let i=0;i<ACTUAL_UPTO;i++) tot.push(CATS.reduce((s,c)=>s+vals[c][i],0));
+  const maxV = Math.max(...tot,1)*1.1;
+  const W=1000,H=360,L=52,R=10,T=14,B=32, iw=W-L-R, ih=H-T-B;
+  const colw = iw/ACTUAL_UPTO*0.6;
+  let g='';
+  for(let s=0;s<=4;s++){
+    const v=maxV*s/4, yy=T+ih-(v/maxV)*ih;
+    g+='<line x1="'+L+'" y1="'+yy+'" x2="'+(W-R)+'" y2="'+yy+'" stroke="var(--line)" stroke-width="1"/>'+
+       '<text x="'+(L-8)+'" y="'+(yy+3)+'" text-anchor="end" font-size="10" fill="var(--faint)">'+fmtW(v)+'</text>';
+  }
+  const MS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  for(let i=0;i<ACTUAL_UPTO;i++){
+    const cx = L + (i+0.5)*(iw/ACTUAL_UPTO);
+    let yBase = T+ih;
+    CATS.forEach(c => {
+      const v = vals[c][i]; if(v<=0) return;
+      const h = (v/maxV)*ih;
+      g+='<rect x="'+(cx-colw/2)+'" y="'+(yBase-h)+'" width="'+colw+'" height="'+h+'" fill="'+CHEX[c]+'"'+(i>=ACTUAL_UPTO?' opacity="0.55"':'')+'><title>'+MS[i]+' · '+c+': '+fmt(v)+'</title></rect>';
+      yBase -= h;
+    });
+    g+='<text x="'+cx+'" y="'+(H-8)+'" text-anchor="middle" font-size="10.5" fill="var(--muted)">'+MS[i]+'</text>';
+  }
+  document.getElementById('colStack').innerHTML = '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Monthly cost stacked by category">'+g+'</svg>';
+  document.getElementById('colLegend').innerHTML = CATS.map(c=>'<span><i style="background:'+CHEX[c]+'"></i>'+c+'</span>').join('');
+}
+
+/* ---------- board 2 ---------- */
+document.getElementById('legend').innerHTML =
+  CATS.map(c => '<span><i style="background:'+CCOL[c]+'"></i>'+c+'</span>').join('');
+
+function renderChart(){
+  const rows = allCenters().map(t => ({t, lines:linesOf(t), grp:false}))
+    .sort((a,b)=>moTotal(b.lines)-moTotal(a.lines));
+  rows.push({t:GROUP, lines:linesOf(GROUP), grp:true});
+  const max = Math.max(...rows.map(r => moTotal(r.lines)), 1);
+  let tm = 0;
+  document.getElementById('chart').innerHTML = rows.map(r => {
+    const tot = moTotal(r.lines); tm += tot;
+    const segs = CATS.map(c => {
+      const v = moTotal(r.lines.filter(l=>l.cat===c));
+      if(v<=0) return '';
+      return '<i style="width:'+(v/max*100)+'%; background:'+CCOL[c]+'" title="'+c+': '+fmt(v)+'"></i>';
+    }).join('');
+    return '<div class="crow big'+(r.grp?' grp':'')+'" data-center="'+esc(r.t)+'">' +
+      '<span class="cl">'+esc(r.grp?'Group':dn(r.t))+'</span>' +
+      '<div class="cbar">'+segs+'</div>' +
+      '<span class="cv num">'+fmtW(tot)+'</span></div>';
+  }).join('');
+  document.getElementById('teamTot').innerHTML =
+    'Total <span class="sub">'+allCenters().length+' centers + group</span><span class="sp"></span>'+fmt(tm)+' /mo';
+}
+document.getElementById('chart').addEventListener('click', e => {
+  const r = e.target.closest('.crow'); if(!r) return;
+  const c = r.dataset.center;
+  showView('board');
+  if(c!==GROUP){ openCards.add(c); render(); }
+  const el = c===GROUP ? document.getElementById('tray') : document.querySelector('.tcard[data-center="'+c+'"]');
+  if(el) el.scrollIntoView({behavior:'smooth', block:'center'});
+});
+
+/* ---------- board 4 ---------- */
+let visSeries = null;
+function seriesList(){
+  const list = [{k:'TOTAL', name:'Total', pool:()=>VIS(), col:'#1A2230'}];
+  const centers = allCenters().map(t => ({t, mo:moTotal(linesOf(t))})).sort((a,b)=>b.mo-a.mo);
+  centers.forEach((c,i)=> list.push({k:c.t, name:dn(c.t), pool:()=>linesOf(c.t), col:SER_COLS[i%SER_COLS.length]}));
+  list.push({k:GROUP, name:'Group costs', pool:()=>linesOf(GROUP), col:'#C43B1E'});
+  return list;
+}
+function ensureVis(){
+  if(visSeries) return;
+  visSeries = new Set(['TOTAL', GROUP]);
+  allCenters().map(t => ({t, mo:moTotal(linesOf(t))})).sort((a,b)=>b.mo-a.mo)
+    .slice(0,4).forEach(c => visSeries.add(c.t));
+}
+function renderTrend(){
+  ensureVis();
+  const list = seriesList();
+  const shown = list.filter(s => visSeries.has(s.k));
+  const series = shown.map(s => ({...s, vals: seriesFor(s.pool())}));
+  const maxV = Math.max(...series.flatMap(s=>s.vals), 1) * 1.08;
+
+  const W=1000, H=330, L=52, R=14, T=14, B=38;
+  const iw = W-L-R, ih = H-T-B;
+  const x = i => L + i*(iw/(HORIZON-1));
+  const y = v => T + ih - (v/maxV)*ih;
+
+  let g = '';
+  for(let s=0;s<=4;s++){
+    const v = maxV*s/4, yy = y(v);
+    g += '<line x1="'+L+'" y1="'+yy+'" x2="'+(W-R)+'" y2="'+yy+'" stroke="var(--line)" stroke-width="1"/>' +
+         '<text x="'+(L-8)+'" y="'+(yy+3)+'" text-anchor="end" font-size="10" fill="var(--faint)">'+fmtW(v)+'</text>';
+  }
+  const xdiv = (x(ACTUAL_UPTO-1)+x(ACTUAL_UPTO))/2;
+  g += '<line x1="'+xdiv+'" y1="'+T+'" x2="'+xdiv+'" y2="'+(T+ih)+'" stroke="var(--faint)" stroke-width="1" stroke-dasharray="3 4"/>' +
+       '<text x="'+(xdiv+5)+'" y="'+(T+11)+'" font-size="9.5" fill="var(--faint)">PROJECTION →</text>';
+  for(let i=0;i<HORIZON;i+=2){
+    g += '<text x="'+x(i)+'" y="'+(H-10)+'" text-anchor="middle" font-size="9.5" fill="var(--faint)">'+MONLAB[i]+'</text>';
+  }
+  series.forEach(s => {
+    const isTot = s.k==='TOTAL';
+    const w = isTot ? 2.4 : 1.8;
+    const col = isTot ? 'var(--ink)' : s.col;
+    let act = '', prj = '';
+    s.vals.forEach((v,i)=>{
+      const pt = x(i)+' '+y(v);
+      if(i < ACTUAL_UPTO) act += (i? ' L ':'M ') + pt;
+      if(i >= ACTUAL_UPTO-1) prj += (i>ACTUAL_UPTO-1? ' L ':'M ') + pt;
+    });
+    g += '<path d="'+act+'" fill="none" stroke="'+col+'" stroke-width="'+w+'" stroke-linejoin="round"/>' +
+         '<path d="'+prj+'" fill="none" stroke="'+col+'" stroke-width="'+w+'" stroke-dasharray="5 4" stroke-linejoin="round"/>';
+    s.vals.forEach((v,i)=>{
+      g += '<circle cx="'+x(i)+'" cy="'+y(v)+'" r="6" fill="transparent"><title>'+esc(s.name)+' · '+MONLAB[i]+': '+fmt(v)+'</title></circle>';
+    });
+  });
+  document.getElementById('lchart').innerHTML =
+    '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Run rate lines">'+g+'</svg>';
+
+  document.getElementById('ltog').innerHTML = list.map(s =>
+    '<button data-k="'+esc(s.k)+'" class="'+(visSeries.has(s.k)?'on':'')+'" style="--tc:'+(s.k==='TOTAL'?'var(--ink)':s.col)+'"><i></i>'+esc(s.name)+'</button>').join('');
+}
+document.getElementById('ltog').addEventListener('click', e => {
+  const b = e.target.closest('button[data-k]'); if(!b) return;
+  const k = b.dataset.k;
+  if(visSeries.has(k)) visSeries.delete(k); else visSeries.add(k);
+  renderTrend();
+});
+
+function renderRegister(){
+  const rows = allCenters().map(t => ({t, ls:linesOf(t), grp:false}))
+    .sort((a,b)=>moTotal(b.ls)-moTotal(a.ls));
+  rows.push({t:GROUP, ls:linesOf(GROUP), grp:true});
+  let tm=0, nlines=0;
+  const html = rows.map(r => {
+    const mo = moTotal(r.ls); tm += mo; nlines += r.ls.length;
+    const lead = r.grp ? null : state.l[r.t];
+    return '<tr>' +
+      '<td class="l"><b>'+(r.grp?'Group costs':esc(dn(r.t)))+'</b></td>' +
+      '<td class="l">'+(r.grp?'<span style="color:var(--faint)">—</span>':(lead?'<span class="leadcell">'+avatar(lead)+esc(lead)+'</span>':'<span style="color:var(--faint)">—</span>'))+'</td>' +
+      '<td class="num">'+r.ls.length+'</td>' +
+      '<td class="num"><b>'+fmt(mo)+'</b></td>' +
+      '<td class="num">'+fmtW(mo*4)+'</td>' +
+      '<td class="num">'+fmtW(mo*3)+'</td><td class="num">'+fmtW(mo*3)+'</td><td class="num">'+fmtW(mo*3)+'</td><td class="num">'+fmtW(mo*3)+'</td>' +
+      '<td class="num"><b>'+fmtK(mo*12)+'</b></td>' +
+      '<td class="l">'+(r.grp
+          ? '<span class="chip o">Unowned</span>'
+          : (lead ? '<span class="chip g">Led</span>' : '<span class="chip n">Open</span>'))+'</td>' +
+      '</tr>';
+  }).join('');
+  document.getElementById('regBody').innerHTML = html;
+  document.getElementById('regFoot').innerHTML =
+    '<tr><td class="l">Total · '+(allCenters().length)+' centers + group</td>' +
+    '<td class="l"><span class="sub">'+allCenters().filter(t=>state.l[t]).length+' led</span></td>' +
+    '<td class="num">'+nlines+'</td>' +
+    '<td class="num">'+fmt(tm)+'</td>' +
+    '<td class="num">'+fmtW(tm*4)+'</td>' +
+    '<td class="num">'+fmtW(tm*3)+'</td><td class="num">'+fmtW(tm*3)+'</td><td class="num">'+fmtW(tm*3)+'</td><td class="num">'+fmtW(tm*3)+'</td>' +
+    '<td class="num">'+fmtK(tm*12)+'</td>' +
+    '<td class="l"><span class="chip">'+fmtK(tm*12)+' in 2027</span></td></tr>';
+}
+
+/* ---------- board 3: pill cards ---------- */
+const grid = document.getElementById('grid');
+
+function pillEl(l){
+  const moved = cur(l) !== l.home;
+  const sp = document.createElement('span');
+  sp.className = 'pill' + (moved?' moved':'') + (l.mo===0?' zero':'');
+  sp.draggable = true; sp.dataset.id = l.id;
+  sp.title = l.src + (moved ? '  ·  from ' + (l.home===GROUP?'Group':dn(l.home)) : '') + '  ·  FY 2026: ' + fmt(l.fy) + '  —  click to move, drag to reassign';
+  sp.innerHTML =
+    '<span class="dot" style="background:'+CCOL[l.cat]+'"></span>' +
+    '<span class="pn">'+esc(l.name)+'</span>' +
+    '<span class="pv num">'+(l.mo===0?'0':fmtW(l.mo))+'</span>' +
+    '<button class="px" data-hide="'+l.id+'" title="Remove sensitive line from dashboard" aria-label="Remove '+esc(l.name)+'">✕</button>';
+  return sp;
+}
+function catWash(c){ return 'color-mix(in srgb, '+CHEX[c]+' 13%, var(--card))'; }
+function leaderHtml(t){
+  const n = state.l[t];
+  return n
+    ? '<button class="leadbtn" data-team="'+esc(t)+'" title="Change leader">'+avatar(n)+'<span>'+esc(n)+'</span></button>'
+    : '<button class="leadbtn empty" data-team="'+esc(t)+'">＋ Assign leader</button>';
+}
+function teamCard(t){
+  const lines = linesOf(t);
+  const tot = moTotal(lines);
+  const isC = state.c.includes(t);
+  const open = openCards.has(t);
+  const card = document.createElement('section');
+  card.className = 'tcard' + (isC ? ' custom' : ''); card.dataset.center = t;
+
+  card.innerHTML =
+    '<header>' +
+      '<div style="min-width:0; flex:1">' +
+        '<div class="codewrap"><div class="code" title="'+esc(t)+'">'+esc(dn(t))+'</div>' +
+        '<button class="rn" data-team="'+esc(t)+'" title="Rename cost center" aria-label="Rename '+esc(dn(t))+'">✎</button></div>' +
+        '<div style="margin-top:6px">'+leaderHtml(t)+'</div>' +
+      '</div>' +
+      '<div class="money"><b class="num">'+fmt(tot)+'</b><span class="num">FY '+fmtK(fyTotal(lines))+'</span></div>' +
+      (isC ? '<button class="delc" data-team="'+esc(t)+'" title="Remove cost center" aria-label="Remove '+esc(dn(t))+'">✕</button>' : '') +
+    '</header>' +
+    '<div class="mini">' + CATS.map(c => {
+        const v = moTotal(lines.filter(l=>l.cat===c));
+        return v>0 ? '<i style="width:'+(v/Math.max(tot,1)*100)+'%; background:'+CCOL[c]+'"></i>' : '';
+      }).join('') + '</div>';
+
+  const cloud = document.createElement('div');
+  cloud.className = 'cloud';
+  if(!lines.length){
+    cloud.innerHTML = '<div class="hint" style="padding:6px 0">Drag a group or a pill here, or click any pill and pick this center</div>';
+  } else {
+    cloud.appendChild(groupCloud(t, lines));
+  }
+  card.appendChild(cloud);
+  return card;
+}
+
+function clusterPill(center, cl, ls){
+  // one nested widget (e.g. Advisory Board); expands to ACTIVE members only
+  const wrap = document.createElement('div'); wrap.className='gwrap';
+  const key = center + '|CL|' + cl;
+  const isOpen = openCl.has(key);
+  const active = ls.filter(l => l.mo > 0);
+  const inactiveN = ls.length - active.length;
+  const g = document.createElement('span');
+  g.className = 'clpill' + (isOpen?' open':'');
+  g.dataset.clk = key;
+  g.draggable = true; g.dataset.gcat = ls[0].cat; g.dataset.gcenter = center; g.dataset.gcluster = cl;
+  g.title = cl + ' — click to ' + (isOpen?'collapse':'expand') + ' · ' + active.length + ' active member' + (active.length!==1?'s':'');
+  g.innerHTML = '<span class="gdot" style="background:var(--cpx)"></span>' +
+    esc(cl) + ' <span class="gcnt num">'+active.length+' · '+fmtW(moTotal(ls))+'</span><span class="gchev">▾</span>';
+  wrap.appendChild(g);
+  if(isOpen){
+    const sub = document.createElement('div'); sub.className='clsub';
+    active.slice().sort((a,b)=>b.mo-a.mo).forEach(l => sub.appendChild(pillEl(l)));
+    wrap.appendChild(sub);
+    if(inactiveN){
+      const note=document.createElement('div'); note.className='clnote';
+      note.textContent = inactiveN + ' inactive member' + (inactiveN>1?'s':'') + ' hidden (no recent pay; spend retained in exports)';
+      wrap.appendChild(note);
+    }
+  }
+  return wrap;
+}
+
+function groupCloud(center, lines){
+  const frag = document.createDocumentFragment();
+  CATS.forEach(cat => {
+    const ls = lines.filter(l => l.cat === cat);
+    if(!ls.length) return;
+    const key = center + '|' + cat;
+    const isOpen = openCat.has(key);
+    const wrap = document.createElement('div');
+    wrap.className = 'gwrap';
+    const g = document.createElement('span');
+    g.className = 'gpill' + (isOpen?' open':'');
+    g.style.background = catWash(cat);
+    g.style.color = CHEX[cat];
+    g.dataset.gk = key;
+    g.title = cat + ' — click to ' + (isOpen?'collapse':'expand') + ' ' + ls.length + ' item' + (ls.length>1?'s':'');
+    g.draggable = true; g.dataset.gcat = cat; g.dataset.gcenter = center;
+    g.innerHTML = '<span class="gdot" style="background:'+CHEX[cat]+'"></span>' +
+      esc(cat) + ' <span class="gcnt num">'+ls.length+' · '+fmtW(moTotal(ls))+'</span>' +
+      '<span class="gchev">▾</span>';
+    wrap.appendChild(g);
+    if(isOpen){
+      const sub = document.createElement('div');
+      sub.className = 'subcloud';
+      // clustered lines (e.g. Advisory Board) collapse into one nested widget
+      const clusters = {};
+      const plain = [];
+      ls.forEach(l => { if(l.cl){ (clusters[l.cl]=clusters[l.cl]||[]).push(l); } else plain.push(l); });
+      Object.keys(clusters).forEach(cl => sub.appendChild(clusterPill(center, cl, clusters[cl])));
+      plain.slice().sort((a,b)=>b.mo-a.mo).forEach(l => sub.appendChild(pillEl(l)));
+      wrap.appendChild(sub);
+    }
+    frag.appendChild(wrap);
+  });
+  return frag;
+}
+
+function renderTray(){
+  const gl = linesOf(GROUP);
+  document.getElementById('trayMo').textContent = fmt(moTotal(gl));
+  document.getElementById('trayN').textContent = gl.length + ' lines';
+  const wrap = document.getElementById('trayCloud');
+  wrap.innerHTML = '';
+  const cl = document.createElement('div');
+  cl.className = 'cloud';
+  cl.appendChild(groupCloud(GROUP, gl));
+  wrap.appendChild(cl);
+}
+
+/* rename */
+document.addEventListener('click', e => {
+  const b = e.target.closest && e.target.closest('button.rn');
+  if(!b) return;
+  const t = b.dataset.team;
+  const wrap = b.closest('.codewrap');
+  wrap.innerHTML = '';
+  const inp = document.createElement('input');
+  inp.className = 'code-edit'; inp.value = dn(t); inp.maxLength = 24;
+  wrap.appendChild(inp); inp.focus(); inp.select();
+  inp.addEventListener('click', ev => ev.stopPropagation());
+  function commit(){
+    const v = inp.value.trim();
+    if(v && v !== t) state.r[t] = v; else delete state.r[t];
+    saveState(); render();
+  }
+  inp.addEventListener('keydown', ev => {
+    if(ev.key === 'Enter') commit();
+    else if(ev.key === 'Escape') render();
+  });
+  inp.addEventListener('blur', () => { setTimeout(()=>{ if(document.body.contains(inp)) commit(); }, 120); });
+  e.stopPropagation();
+});
+
+/* hide sensitive lines */
+document.addEventListener('click', e => {
+  const x = e.target.closest && e.target.closest('button.px');
+  if(!x) return;
+  const l = byId[x.dataset.hide];
+  if(l && confirm('Remove “'+l.name+'” from this dashboard?\nIt disappears from every board and total. Restore any time via “Hidden lines” in the sidebar.')){
+    state.h.push(l.id);
+    saveState(); render();
+  }
+  e.stopPropagation();
+});
+document.getElementById('hiddenBtn').addEventListener('click', () => {
+  if(!state.h.length){ alert('No hidden lines.'); return; }
+  const names = state.h.map(id => byId[id] ? byId[id].name : id).join('\n· ');
+  if(confirm('Hidden lines ('+state.h.length+'):\n· '+names+'\n\nRestore all?')){
+    state.h = [];
+    saveState(); render();
+  }
+});
+
+function render(){
+  const order = state.c.slice().concat(
+    teamIds.map(t => [t, moTotal(linesOf(t))]).sort((a,b)=>b[1]-a[1]).map(x=>x[0]));
+  grid.innerHTML = '';
+  order.forEach(t => grid.appendChild(teamCard(t)));
+  grid.appendChild(makeAddCard());
+  renderTray();
+
+  const V = VIS();
+  const gl = linesOf(GROUP);
+  const teamLines = V.filter(l => cur(l) !== GROUP);
+  const tm = moTotal(teamLines), gm = moTotal(gl), all = tm+gm;
+  document.getElementById('kTotal').innerHTML = fmtK(all) + '<small> /mo</small>';
+  document.getElementById('kTotalFy').textContent = 'FY 2026 proj · ' + fmtK(fyTotal(V));
+  document.getElementById('kTeam').textContent = fmtK(tm);
+  document.getElementById('kTeamPct').textContent = Math.round(tm/all*100) + '% of run rate';
+  document.getElementById('kGroup').textContent = fmtK(gm);
+  document.getElementById('kGroupN').textContent = gl.length + ' lines to place';
+  updLeadKpi();
+  const mvd = V.filter(l => cur(l)!==l.home).length;
+  const km = document.getElementById('kMoved');
+  km.textContent = mvd + ' lines moved';
+  km.className = 'chip num ' + (mvd>0 ? 'o' : 'n');
+  document.getElementById('hiddenBtn').innerHTML = '<span class="ic">◌</span>Hidden lines ('+state.h.length+')';
+
+  renderCat();
+  renderChart();
+  renderTrend();
+  renderRegister();
+  applySearch();
+}
+function updLeadKpi(){
+  const nl = allCenters().filter(t => state.l[t]).length;
+  document.getElementById('kLead').innerHTML = nl + '<small> / ' + allCenters().length + '</small>';
+}
+
+/* ---------- custom centers ---------- */
+function makeAddCard(){
+  const d = document.createElement('div');
+  d.className = 'addcard'; d.setAttribute('role','button'); d.tabIndex = 0;
+  d.textContent = '\uFF0B New cost center';
+  function start(){
+    d.innerHTML = '';
+    const inp = document.createElement('input');
+    inp.placeholder = 'Code, e.g. DATA'; inp.maxLength = 18;
+    d.appendChild(inp); inp.focus();
+    inp.addEventListener('click', ev => ev.stopPropagation());
+    inp.addEventListener('keydown', ev => {
+      if(ev.key === 'Enter') createCenter(inp.value);
+      else if(ev.key === 'Escape') render();
+    });
+    inp.addEventListener('blur', () => { setTimeout(() => { if(document.body.contains(inp)) render(); }, 150); });
+    d.removeEventListener('click', start);
+  }
+  d.addEventListener('click', start);
+  d.addEventListener('keydown', e => { if(e.key === 'Enter' && !d.querySelector('input')) start(); });
+  return d;
+}
+function createCenter(v){
+  const code = v.trim().toUpperCase().replace(/\s+/g,' ');
+  if(!code){ render(); return; }
+  const taken = code === 'GROUP' || allCenters().includes(code) ||
+    allCenters().some(t => dn(t).toUpperCase() === code);
+  if(taken){ alert('That name already exists.'); return; }
+  state.c.push(code); openCards.add(code);
+  saveState(); render();
+}
+function removeCenter(t){
+  const n = linesOf(t).length;
+  if(!confirm('Remove cost center ' + dn(t) + '?' + (n ? ' Its ' + n + ' line' + (n>1?'s':'') + ' will return to where they came from.' : ''))) return;
+  Object.keys(state.a).forEach(id => { if(state.a[id] === t) delete state.a[id]; });
+  state.c = state.c.filter(x => x !== t);
+  delete state.l[t]; delete state.r[t];
+  openCards.delete(t);
+  saveState(); render();
+}
+document.addEventListener('click', e => {
+  const d = e.target.closest && e.target.closest('button.delc');
+  if(d) removeCenter(d.dataset.team);
+});
+
+/* ---------- moving ---------- */
+function move(id, dest){
+  const l = byId[id]; if(!l) return;
+  if(cur(l) === dest) return;
+  if(dest === l.home) delete state.a[id]; else state.a[id] = dest;
+  if(dest !== GROUP) openCards.add(dest);
+  saveState(); render();
+}
+document.addEventListener('dragstart', e => {
+  const cw = e.target.closest && e.target.closest('.clpill[data-gcluster]');
+  if(cw){
+    e.dataTransfer.setData('text/plain', 'CLU:'+cw.dataset.gcenter+'|'+cw.dataset.gcluster);
+    e.dataTransfer.effectAllowed='move'; cw.classList.add('dragging'); return;
+  }
+  const g = e.target.closest && e.target.closest('.gpill[data-gcat]');
+  if(g){
+    e.dataTransfer.setData('text/plain', 'GRP:'+g.dataset.gcenter+'|'+g.dataset.gcat);
+    e.dataTransfer.effectAllowed = 'move';
+    g.classList.add('dragging');
+    return;
+  }
+  const p = e.target.closest && e.target.closest('.pill[data-id]');
+  if(!p) return;
+  e.dataTransfer.setData('text/plain', p.dataset.id);
+  e.dataTransfer.effectAllowed = 'move';
+  p.classList.add('dragging');
+});
+document.addEventListener('dragend', () => {
+  document.querySelectorAll('.dragging').forEach(x=>x.classList.remove('dragging'));
+  document.querySelectorAll('.dropping').forEach(x=>x.classList.remove('dropping'));
+});
+function dropTarget(e){
+  return (e.target.closest && (e.target.closest('.tcard') || e.target.closest('.tray'))) || null;
+}
+document.addEventListener('dragover', e => {
+  const t = dropTarget(e); if(!t) return;
+  e.preventDefault(); e.dataTransfer.dropEffect = 'move';
+  document.querySelectorAll('.dropping').forEach(x=>{ if(x!==t) x.classList.remove('dropping'); });
+  t.classList.add('dropping');
+});
+document.addEventListener('dragleave', e => {
+  const t = dropTarget(e);
+  if(t && !t.contains(e.relatedTarget)) t.classList.remove('dropping');
+});
+document.addEventListener('drop', e => {
+  const t = dropTarget(e); if(!t) return;
+  e.preventDefault();
+  const id = e.dataTransfer.getData('text/plain');
+  const dest = t.classList.contains('tray') ? GROUP : t.dataset.center;
+  t.classList.remove('dropping');
+  if(!id || !dest) return;
+  if(id.startsWith('GRP:')){
+    const [center, cat] = id.slice(4).split('|');
+    if(center === dest) return;
+    linesOf(center).filter(l=>l.cat===cat).forEach(l => {
+      if(dest === l.home) delete state.a[l.id]; else state.a[l.id] = dest;
+    });
+    saveState(); render();
+  } else if(id.startsWith('CLU:')){
+    const [center, clu] = id.slice(4).split('|');
+    if(center === dest) return;
+    linesOf(center).filter(l=>l.cl===clu).forEach(l => {
+      if(dest === l.home) delete state.a[l.id]; else state.a[l.id] = dest;
+    });
+    saveState(); render();
+  } else {
+    move(id, dest);
+  }
+});
+
+/* move popover — click a pill */
+const pop = document.getElementById('pop');
+let popLine = null;
+function placePop(el, anchor){
+  el.classList.add('open');
+  const r = anchor.getBoundingClientRect();
+  const pw = el.offsetWidth, ph = el.offsetHeight;
+  let x = Math.min(r.left, innerWidth - pw - 10);
+  let y = r.bottom + 6; if(y + ph > innerHeight - 10) y = Math.max(10, r.top - ph - 6);
+  el.style.left = x+'px'; el.style.top = y+'px';
+}
+document.addEventListener('click', e => {
+  if(e.target.closest && e.target.closest('button.px')) return;
+  const p = e.target.closest && e.target.closest('.pill[data-id]');
+  if(p){
+    popLine = p.dataset.id;
+    const l = byId[popLine];
+    const here = cur(l);
+    pop.innerHTML = '<div class="php">Move “'+esc(l.name)+'” to</div>' +
+      allCenters().map(t => '<button class="pitem" data-dest="'+esc(t)+'"'+(t===here?' disabled':'')+'>'+esc(dn(t))+'</button>').join('') +
+      '<button class="pitem gr" data-dest="'+GROUP+'"'+(here===GROUP?' disabled':'')+'>Group costs</button>';
+    placePop(pop, p);
+    e.stopPropagation();
+    return;
+  }
+  const dest = e.target.closest && e.target.closest('#pop button[data-dest]');
+  if(dest && popLine){ move(popLine, dest.dataset.dest); }
+  pop.classList.remove('open');
+});
+
+/* ---------- leader picker ---------- */
+const ppl = document.getElementById('ppl');
+let pplTeam = null, newG = 'm', pplGS = null;   // pplGS = growth-group id when picking a GS leader
+function pplHtml(t){
+  const cn = state.l[t];
+  const row = p => '<button class="pitem" data-lead="'+esc(p.n)+'"'+(p.n===cn?' disabled':'')+'>'+avatar(p.n)+'<span>'+esc(p.n)+'</span></button>';
+  const customs = state.p;
+  return '<div class="php">Leader for '+esc(dn(t))+'</div>' +
+    (cn ? '<button class="pitem gr" data-lead="">✕ Remove leader</button>' : '') +
+    '<div class="psec">Team</div>' +
+    people().filter(p=>!state.p.includes(p)).map(row).join('') +
+    (customs.length ? '<div class="psec">Added</div>' + customs.map(row).join('') : '') +
+    '<div class="newlead">' +
+      '<input id="nlName" placeholder="New lead — name" maxlength="24">' +
+      '<div class="row">' +
+        '<button class="seg'+(newG==='m'?' on':'')+'" data-g="m">Male</button>' +
+        '<button class="seg'+(newG==='f'?' on':'')+'" data-g="f">Female</button>' +
+        '<button class="add" id="nlAdd">Add</button>' +
+      '</div>' +
+    '</div>';
+}
+function gsPplHtml(g){
+  const cn = g.leader;
+  const row = p => '<button class="pitem" data-lead="'+esc(p.n)+'"'+(p.n===cn?' disabled':'')+'>'+avatar(p.n)+'<span>'+esc(p.n)+'</span></button>';
+  return '<div class="php">Leader for '+esc(g.name)+'</div>' +
+    (cn ? '<button class="pitem gr" data-lead="">✕ Remove leader</button>' : '') +
+    '<div class="psec">Team</div>' + people().filter(p=>!state.p.includes(p)).map(row).join('') +
+    (state.p.length ? '<div class="psec">Added</div>' + state.p.map(row).join('') : '') +
+    '<div class="newlead"><input id="nlName" placeholder="New lead — name" maxlength="24">' +
+      '<div class="row">' +
+        '<button class="seg'+(newG==='m'?' on':'')+'" data-g="m">Male</button>' +
+        '<button class="seg'+(newG==='f'?' on':'')+'" data-g="f">Female</button>' +
+        '<button class="add" id="nlAdd">Add</button></div></div>';
+}
+document.addEventListener('click', e => {
+  const glb = e.target.closest && e.target.closest('button.gsleadbtn');
+  if(glb){
+    pplGS = glb.dataset.gs; pplTeam = null; newG = 'm';
+    const g = state.gs.find(x=>x.id===pplGS);
+    ppl.innerHTML = gsPplHtml(g); placePop(ppl, glb); e.stopPropagation(); return;
+  }
+  const lb = e.target.closest && e.target.closest('button.leadbtn');
+  if(lb){
+    pplTeam = lb.dataset.team; pplGS = null; newG = 'm';
+    ppl.innerHTML = pplHtml(pplTeam);
+    placePop(ppl, lb);
+    e.stopPropagation();
+    return;
+  }
+  if(ppl.classList.contains('open')){
+    const seg = e.target.closest && e.target.closest('#ppl .seg');
+    if(seg){
+      newG = seg.dataset.g;
+      ppl.querySelectorAll('.seg').forEach(s=>s.classList.toggle('on', s.dataset.g===newG));
+      e.stopPropagation(); return;
+    }
+    const addb = e.target.closest && e.target.closest('#nlAdd');
+    if(addb){
+      const inp = document.getElementById('nlName');
+      const name = inp.value.trim();
+      if(!name){ inp.focus(); e.stopPropagation(); return; }
+      if(people().some(p => p.n.toLowerCase() === name.toLowerCase())){ alert('That name already exists.'); e.stopPropagation(); return; }
+      state.p.push({n:name, g:newG});
+      if(pplGS){ const g=state.gs.find(x=>x.id===pplGS); if(g) g.leader=name; saveState(); renderGrowth(); }
+      else { state.l[pplTeam] = name; saveState(); render(); }
+      ppl.classList.remove('open');
+      e.stopPropagation(); return;
+    }
+    const inpClick = e.target.closest && e.target.closest('#ppl input');
+    if(inpClick){ e.stopPropagation(); return; }
+    const pick = e.target.closest && e.target.closest('#ppl button[data-lead]');
+    if(pick){
+      const n = pick.dataset.lead;
+      if(pplGS){ const g=state.gs.find(x=>x.id===pplGS); if(g){ if(n) g.leader=n; else delete g.leader; } saveState(); renderGrowth(); }
+      else { if(n) state.l[pplTeam] = n; else delete state.l[pplTeam]; saveState(); render(); }
+    }
+    ppl.classList.remove('open');
+  }
+});
+addEventListener('keydown', e => { if(e.key==='Escape'){ pop.classList.remove('open'); ppl.classList.remove('open'); closeModal(); } });
+
+/* expand / collapse */
+document.addEventListener('click', e => {
+  const cl = e.target.closest && e.target.closest('.clpill[data-clk]');
+  if(cl){ const k=cl.dataset.clk; if(openCl.has(k)) openCl.delete(k); else openCl.add(k); render(); e.stopPropagation(); return; }
+  const g = e.target.closest && e.target.closest('.gpill[data-gk]');
+  if(!g) return;
+  const k = g.dataset.gk;
+  if(openCat.has(k)) openCat.delete(k); else openCat.add(k);
+  render();
+  e.stopPropagation();
+});
+document.getElementById('expAll').addEventListener('click', () => {
+  showView('board');
+  allCenters().concat([GROUP]).forEach(t => CATS.forEach(c => {
+    const ls=linesOf(t).filter(l=>l.cat===c);
+    if(ls.length){ openCat.add(t+'|'+c);
+      [...new Set(ls.filter(l=>l.cl).map(l=>l.cl))].forEach(cl=>openCl.add(t+'|CL|'+cl)); }
+  }));
+  render();
+});
+document.getElementById('colAll').addEventListener('click', () => { showView('board'); openCat.clear(); openCl.clear(); render(); });
+
+/* search */
+const q = document.getElementById('q');
+q.addEventListener('input', () => {
+  if(q.value.trim()) showView('board');
+  autoExpandForSearch(); render();
+});
+function autoExpandForSearch(){
+  const s = q.value.trim().toLowerCase();
+  if(!s) return;
+  allCenters().forEach(t => {
+    if(linesOf(t).some(l => l.name.toLowerCase().includes(s) || l.src.toLowerCase().includes(s)))
+      openCards.add(t);
+  });
+}
+function applySearch(){
+  const s = q.value.trim().toLowerCase();
+  document.querySelectorAll('.pill[data-id]').forEach(p => {
+    p.classList.remove('hit','hidden');
+    if(!s) return;
+    const l = byId[p.dataset.id];
+    const m = l.name.toLowerCase().includes(s) || l.src.toLowerCase().includes(s);
+    p.classList.toggle('hit', m);
+    p.classList.toggle('hidden', !m);
+  });
+  document.querySelectorAll('.tcard').forEach(c => {
+    if(!s){ c.classList.remove('dim'); return; }
+    const any = linesOf(c.dataset.center).some(l => l.name.toLowerCase().includes(s) || l.src.toLowerCase().includes(s));
+    c.classList.toggle('dim', !any);
+  });
+}
+
+/* ================= Growth Spend ================= */
+let gsSeq = 0;
+function gsId(){ return 'G'+(Date.now().toString(36))+(gsSeq++); }
+function gsGroupTotal(g){ return (g.items||[]).reduce((s,i)=>s+(+i.amt||0),0); }
+
+function renderGrowth(){
+  const grid = document.getElementById('gsGrid');
+  if(!grid) return;
+  let html = '';
+  state.gs.forEach(g => {
+    const tot = gsGroupTotal(g);
+    const lead = g.leader;
+    html +=
+      '<section class="tcard" data-gs="'+esc(g.id)+'">' +
+        '<header>' +
+          '<div style="min-width:0; flex:1">' +
+            '<div class="codewrap"><div class="code" title="'+esc(g.name)+'">'+esc(g.name)+'</div>' +
+            '<button class="rn gsrename" data-gs="'+esc(g.id)+'" title="Rename group">✎</button></div>' +
+            '<div style="margin-top:6px">' +
+              (lead
+                ? '<button class="leadbtn gsleadbtn" data-gs="'+esc(g.id)+'">'+avatar(lead)+'<span>'+esc(lead)+'</span></button>'
+                : '<button class="leadbtn empty gsleadbtn" data-gs="'+esc(g.id)+'">＋ Assign leader</button>') +
+            '</div>' +
+          '</div>' +
+          '<div class="money"><b class="num">'+fmtW(tot)+'</b><span class="num">/mo</span></div>' +
+          '<button class="delc gsdelgroup" data-gs="'+esc(g.id)+'" title="Remove group" aria-label="Remove '+esc(g.name)+'">✕</button>' +
+        '</header>' +
+        '<div class="cloud" style="flex-direction:column; align-items:stretch; gap:6px">' +
+          (g.items||[]).map(it =>
+            '<div class="gsrow" data-gs="'+esc(g.id)+'" data-it="'+esc(it.id)+'">' +
+              '<span class="gsname" title="'+esc(it.name)+'">'+esc(it.name)+'</span>' +
+              '<span class="gsamt num">'+fmt(+it.amt||0)+'</span>' +
+              '<button class="gsdelit" data-gs="'+esc(g.id)+'" data-it="'+esc(it.id)+'" title="Remove item">✕</button>' +
+            '</div>').join('') +
+          '<button class="gsadd" data-gs="'+esc(g.id)+'">＋ Add spend item</button>' +
+        '</div>' +
+      '</section>';
+  });
+  // add-group card
+  html += '<div class="addcard" id="gsAddGroup" role="button" tabindex="0">＋ New spend group</div>';
+  grid.innerHTML = html;
+
+  const tot = state.gs.reduce((s,g)=>s+gsGroupTotal(g),0);
+  document.getElementById('gsTotal').textContent = fmt(tot);
+  document.getElementById('gsSub').textContent = '/mo · ' + state.gs.length + ' group' + (state.gs.length!==1?'s':'') + ' · ' + fmtK(tot*12) + ' annualised';
+}
+
+// create group
+function gsNewGroup(name){
+  const n = (name||'').trim(); if(!n){ renderGrowth(); return; }
+  state.gs.push({id:gsId(), name:n, items:[]});
+  saveState(); renderGrowth();
+}
+// add / edit item via prompt-style inline inputs
+document.addEventListener('click', e => {
+  // new group
+  const ag = e.target.closest && e.target.closest('#gsAddGroup');
+  if(ag){
+    if(ag.querySelector('input')) return;
+    ag.innerHTML = '<input placeholder="Group name, e.g. Paid Media" maxlength="30">';
+    const inp = ag.querySelector('input'); inp.focus();
+    inp.addEventListener('click', ev=>ev.stopPropagation());
+    inp.addEventListener('keydown', ev=>{ if(ev.key==='Enter') gsNewGroup(inp.value); else if(ev.key==='Escape') renderGrowth(); });
+    inp.addEventListener('blur', ()=>setTimeout(()=>{ if(document.body.contains(inp)) renderGrowth(); },150));
+    e.stopPropagation(); return;
+  }
+  // rename group
+  const rn = e.target.closest && e.target.closest('.gsrename');
+  if(rn){
+    const g = state.gs.find(x=>x.id===rn.dataset.gs); if(!g) return;
+    const wrap = rn.closest('.codewrap'); wrap.innerHTML='';
+    const inp=document.createElement('input'); inp.className='code-edit'; inp.value=g.name; inp.maxLength=30;
+    wrap.appendChild(inp); inp.focus(); inp.select();
+    inp.addEventListener('click',ev=>ev.stopPropagation());
+    const commit=()=>{ const v=inp.value.trim(); if(v) g.name=v; saveState(); renderGrowth(); };
+    inp.addEventListener('keydown',ev=>{ if(ev.key==='Enter') commit(); else if(ev.key==='Escape') renderGrowth(); });
+    inp.addEventListener('blur',()=>setTimeout(()=>{ if(document.body.contains(inp)) commit(); },120));
+    e.stopPropagation(); return;
+  }
+  // remove group
+  const dg = e.target.closest && e.target.closest('.gsdelgroup');
+  if(dg){
+    const g=state.gs.find(x=>x.id===dg.dataset.gs); if(!g) return;
+    if(confirm('Remove spend group “'+g.name+'” and its '+(g.items||[]).length+' item(s)?')){
+      state.gs=state.gs.filter(x=>x.id!==dg.dataset.gs); saveState(); renderGrowth();
+    }
+    e.stopPropagation(); return;
+  }
+  // remove item
+  const di = e.target.closest && e.target.closest('.gsdelit');
+  if(di){
+    const g=state.gs.find(x=>x.id===di.dataset.gs); if(!g) return;
+    g.items=(g.items||[]).filter(it=>it.id!==di.dataset.it); saveState(); renderGrowth();
+    e.stopPropagation(); return;
+  }
+  // add item -> inline name + amount row
+  const ai = e.target.closest && e.target.closest('.gsadd');
+  if(ai){
+    const g=state.gs.find(x=>x.id===ai.dataset.gs); if(!g) return;
+    if(ai.parentElement.querySelector('.gsnew')) return;
+    const row=document.createElement('div'); row.className='gsrow gsnew';
+    row.innerHTML='<input class="gsinName" placeholder="Item name" maxlength="40">' +
+                  '<input class="gsinAmt" type="number" min="0" step="100" placeholder="AED/mo" style="width:92px">' +
+                  '<button class="gsinOk">Add</button>';
+    ai.parentElement.insertBefore(row, ai);
+    const nm=row.querySelector('.gsinName'), am=row.querySelector('.gsinAmt');
+    nm.focus();
+    [nm,am].forEach(x=>x.addEventListener('click',ev=>ev.stopPropagation()));
+    const commit=()=>{
+      const name=nm.value.trim(); const amt=+am.value||0;
+      if(!name){ nm.focus(); return; }
+      g.items=g.items||[]; g.items.push({id:gsId(), name, amt});
+      saveState(); renderGrowth();
+    };
+    row.querySelector('.gsinOk').addEventListener('click',ev=>{ ev.stopPropagation(); commit(); });
+    [nm,am].forEach(x=>x.addEventListener('keydown',ev=>{ if(ev.key==='Enter') commit(); else if(ev.key==='Escape') renderGrowth(); }));
+    e.stopPropagation(); return;
+  }
+  // edit existing item (click name or amount)
+  const cell = e.target.closest && e.target.closest('.gsname, .gsamt');
+  if(cell){
+    const rowEl=cell.closest('.gsrow'); if(!rowEl || rowEl.classList.contains('gsnew')) return;
+    const g=state.gs.find(x=>x.id===rowEl.dataset.gs); if(!g) return;
+    const it=(g.items||[]).find(i=>i.id===rowEl.dataset.it); if(!it) return;
+    rowEl.innerHTML='<input class="gsinName" maxlength="40">' +
+                    '<input class="gsinAmt" type="number" min="0" step="100" style="width:92px">' +
+                    '<button class="gsinOk">Save</button>';
+    const nm=rowEl.querySelector('.gsinName'), am=rowEl.querySelector('.gsinAmt');
+    nm.value=it.name; am.value=it.amt; nm.focus();
+    [nm,am].forEach(x=>x.addEventListener('click',ev=>ev.stopPropagation()));
+    const commit=()=>{ const name=nm.value.trim(); if(name) it.name=name; it.amt=+am.value||0; saveState(); renderGrowth(); };
+    rowEl.querySelector('.gsinOk').addEventListener('click',ev=>{ ev.stopPropagation(); commit(); });
+    [nm,am].forEach(x=>x.addEventListener('keydown',ev=>{ if(ev.key==='Enter') commit(); else if(ev.key==='Escape') renderGrowth(); }));
+    e.stopPropagation(); return;
+  }
+});
+
+/* ================= Guidelines (editable) ================= */
+const GL_DEFAULT = {
+  title: 'Budget guidelines',
+  sub: 'How resource planning budgets are set and managed. Read before you submit your 2027 numbers.',
+  sections: [
+    { h:'Who owns what', items:[
+      'One owner per cost. Every expense belongs to one leader. No shared or unowned lines.',
+      'You own it both ways. You answer for spending too much and too little.',
+      'New requests go in the plan. A new hire, tool or campaign is added with its full cost and checked against cash flow before it is approved.' ]},
+    { h:'How to set the number', items:[
+      'Budget the full cost. Include everything a decision brings with it — not just the headline price.',
+      'A hire is not just a salary. Add agency or recruitment fees, visa, medical, social insurance, laptop, software seats and any per-diem.',
+      'Split the year into months. A budget is a monthly plan. Do not add up a few months and call it the year. Spread the full amount across all 12 months.',
+      'Mark what is fixed. Separate costs you cannot avoid (signed contracts, salaries) from costs you can change. Only the flexible part can be cut later.' ]},
+    { h:'Money rules', items:[
+      'Everything in USD. Budgets are set and tracked in US dollars.',
+      'Fixed rate. We use 1 USD = 3.6725 AED all year. Currency moves are not your problem.',
+      'No carry-forward. Money you do not spend does not roll over — not to next month, not to next year. If you truly need to carry something, ask and get it approved.' ]},
+    { h:'Changes & approvals', items:[
+      'Move money inside your own budget freely. You can shift between your categories (e.g. systems to freelancers) without asking.',
+      'Moving money to another leader needs finance sign-off.',
+      'Hiring and exits always need sign-off — even if the money is already in your budget.',
+      'Small overspends you absorb. Big ones need approval first. Finance will set the limit.' ]},
+    { h:'How we run it', items:[
+      'One system only. All budgets are raised, changed and tracked in the budgeting system. No side spending.',
+      'Check monthly. We compare actual vs budget every month.',
+      'Re-forecast each quarter. Numbers are refreshed four times a year.' ]}
+  ],
+  note: 'A note on fairness. Variances are a conversation, not a scorecard. Underspending because you found a smarter, cheaper way is a good thing — not something to hide or "use up" before year-end.'
+};
+let glEditing = false;
+function glData(){ return state.gl ? state.gl : JSON.parse(JSON.stringify(GL_DEFAULT)); }
+
+function renderRules(){
+  const d = glData();
+  document.getElementById('glTitle').textContent = d.title;
+  document.getElementById('glSub').textContent = d.sub;
+  // split sections into two columns
+  const mid = Math.ceil(d.sections.length/2);
+  const col = (secs, base) => '<div class="glcol">' + secs.map((s,si)=>{
+    const idx = base+si;
+    return '<div class="glsec" data-sec="'+idx+'">' +
+      '<div class="sechead"><h3 contenteditable="false" data-f="h" data-sec="'+idx+'">'+esc(s.h)+'</h3>' +
+      '<button class="secx" data-sec="'+idx+'" title="Remove section">✕</button></div>' +
+      '<ul>' + s.items.map((it,ii)=>
+        '<li class="glli" data-sec="'+idx+'" data-i="'+ii+'">' +
+          '<span class="glbody" contenteditable="false" data-sec="'+idx+'" data-i="'+ii+'">'+esc(it)+'</span>' +
+          '<button class="xbtn" data-sec="'+idx+'" data-i="'+ii+'" title="Remove bullet">✕</button>' +
+        '</li>').join('') +
+      '</ul>' +
+      '<button class="addbtn addbul" data-sec="'+idx+'">＋ Add bullet</button>' +
+    '</div>';
+  }).join('') + '</div>';
+  document.getElementById('glBody').innerHTML =
+    '<div class="glgrid">' + col(d.sections.slice(0,mid),0) + col(d.sections.slice(mid),mid) + '</div>' +
+    '<button class="addbtn addsec" style="margin-top:10px">＋ Add section</button>' +
+    '<div class="glnote"><span class="glbody" contenteditable="false" data-f="note">'+esc(d.note)+'</span></div>';
+  applyGlEditState();
+}
+function applyGlEditState(){
+  const card = document.getElementById('glCard');
+  card.classList.toggle('editing', glEditing);
+  document.getElementById('glHint').style.display = glEditing ? 'block' : 'none';
+  document.getElementById('glReset').style.display = glEditing ? 'inline-block' : 'none';
+  document.getElementById('glEdit').textContent = glEditing ? '✓ Done' : '✎ Edit';
+  ['glTitle','glSub'].forEach(id=>document.getElementById(id).setAttribute('contenteditable', glEditing));
+  document.querySelectorAll('#glBody [contenteditable]').forEach(el=>el.setAttribute('contenteditable', glEditing));
+}
+function glCapture(){
+  // read current DOM back into a data object
+  const d = { title:'', sub:'', sections:[], note:'' };
+  d.title = document.getElementById('glTitle').textContent.trim();
+  d.sub   = document.getElementById('glSub').textContent.trim();
+  const secEls = [...document.querySelectorAll('#glBody .glsec')].sort((a,b)=>(+a.dataset.sec)-(+b.dataset.sec));
+  secEls.forEach(se=>{
+    const h = se.querySelector('h3').textContent.trim();
+    const items = [...se.querySelectorAll('.glli .glbody')].map(x=>x.textContent.trim()).filter(Boolean);
+    d.sections.push({h, items});
+  });
+  const noteEl = document.querySelector('#glBody [data-f="note"]');
+  d.note = noteEl ? noteEl.textContent.trim() : '';
+  return d;
+}
+document.getElementById('glEdit').addEventListener('click', ()=>{
+  if(glEditing){ // Done -> save
+    state.gl = glCapture();
+    glEditing = false; saveState(); renderRules();
+    note('Guidelines saved');
+  } else { glEditing = true; applyGlEditState();
+    // focus is enabled; re-render not needed, just flip editable
+    document.querySelectorAll('#glBody [contenteditable]').forEach(el=>el.setAttribute('contenteditable','true'));
+  }
+});
+document.getElementById('glReset').addEventListener('click', ()=>{
+  if(!confirm('Reset guidelines to the default text? Your edits will be lost.')) return;
+  state.gl = null; glEditing = false; saveState(); renderRules(); note('Guidelines reset');
+});
+// add/remove section & bullets (only meaningful while editing)
+document.addEventListener('click', e=>{
+  if(!glEditing) return;
+  const card = e.target.closest && e.target.closest('#glCard'); if(!card) return;
+  const addSec = e.target.closest('.addsec');
+  if(addSec){ const d=glCapture(); d.sections.push({h:'New section', items:['New rule.']}); state.gl=d; renderRules(); return; }
+  const addBul = e.target.closest('.addbul');
+  if(addBul){ const d=glCapture(); const si=+addBul.dataset.sec; if(d.sections[si]) d.sections[si].items.push('New rule.'); state.gl=d; renderRules(); return; }
+  const xb = e.target.closest('.xbtn');
+  if(xb){ const d=glCapture(); const si=+xb.dataset.sec, ii=+xb.dataset.i; if(d.sections[si]) d.sections[si].items.splice(ii,1); state.gl=d; renderRules(); return; }
+  const sx = e.target.closest('.secx');
+  if(sx){ const d=glCapture(); const si=+sx.dataset.sec; d.sections.splice(si,1); state.gl=d; renderRules(); return; }
+});
+
+/* ================= Umbrella view ================= */
+let umSeq = 0;
+function umId(){ return 'U'+Date.now().toString(36)+(umSeq++); }
+function umUniverse(){ return teamIds.slice(); }               // the live cost-center codes
+function centerTot(code){ return moTotal(linesOf(code)); }
+function umAssigned(){ const s=new Set(); state.um.forEach(u=>(u.centers||[]).forEach(c=>s.add(c))); return s; }
+
+function umWidget(code){
+  const lead = state.l[code];
+  return '<div class="umw" draggable="true" data-center="'+esc(code)+'">' +
+    '<div class="umw-name" title="'+esc(dn(code))+'">'+esc(dn(code))+'</div>' +
+    '<div class="umw-meta">' +
+      '<span class="umw-lead">'+(lead?avatar(lead)+'<span>'+esc(lead)+'</span>':'<span style="color:var(--faint)">No leader</span>')+'</span>' +
+      '<span class="umw-tot num">'+fmtW(centerTot(code))+'</span>' +
+    '</div></div>';
+}
+function umbChart(codes){
+  if(!codes.length) return '<div class="csub" style="padding:4px 0">No cost centers yet.</div>';
+  const rows = codes.map(c=>({c, t:centerTot(c)})).sort((a,b)=>b.t-a.t);
+  const max = Math.max(...rows.map(r=>r.t), 1);
+  return rows.map(r=>{
+    const ls = linesOf(r.c);
+    const segs = CATS.map(cat=>{
+      const v = moTotal(ls.filter(l=>l.cat===cat));
+      return v>0 ? '<i style="width:'+(v/max*100)+'%; background:'+CCOL[cat]+'" title="'+cat+': '+fmt(v)+'"></i>' : '';
+    }).join('');
+    return '<div class="crow"><span class="cl" title="'+esc(dn(r.c))+'">'+esc(dn(r.c))+'</span>' +
+      '<div class="cbar">'+segs+'</div><span class="cv num">'+fmtW(r.t)+'</span></div>';
+  }).join('');
+}
+function renderUmbrella(){
+  const list = document.getElementById('umList'); if(!list) return;
+  const assigned = umAssigned();
+  const unassigned = umUniverse().filter(c=>!assigned.has(c));
+  // tray
+  const tb = document.getElementById('umTrayBody');
+  tb.innerHTML = unassigned.length ? unassigned.sort((a,b)=>centerTot(b)-centerTot(a)).map(umWidget).join('')
+                                   : '<div class="csub">All cost centers are placed in an umbrella.</div>';
+  // umbrellas
+  list.innerHTML = state.um.map(u=>{
+    const codes = (u.centers||[]).filter(c=>umUniverse().includes(c)).sort((a,b)=>centerTot(b)-centerTot(a));
+    const tot = codes.reduce((s,c)=>s+centerTot(c),0);
+    const parent =
+      '<div class="umnode parent">' +
+        '<input class="um-master" data-um="'+esc(u.id)+'" data-f="master" placeholder="Master cost center" value="'+esc(u.master||'')+'">' +
+        '<input class="um-mgr" data-um="'+esc(u.id)+'" data-f="manager" placeholder="Manager name" value="'+esc(u.manager||'')+'">' +
+        '<span class="um-ptot num">'+fmtW(tot)+' /mo · '+codes.length+' cost center'+(codes.length!==1?'s':'')+'</span>' +
+      '</div>';
+    // children <ul> is the drop target (keeps class umdrop + data-um)
+    const children = codes.length
+      ? '<ul class="umdrop" data-um="'+esc(u.id)+'">' + codes.map(c=>'<li>'+umWidget(c)+'</li>').join('') + '</ul>'
+      : '<ul class="umdrop" data-um="'+esc(u.id)+'"><li><div class="umempty">Drag cost-center cards here</div></li></ul>';
+    return '<section class="umb" data-um="'+esc(u.id)+'" style="position:relative">' +
+      '<button class="um-del" data-um="'+esc(u.id)+'" title="Remove umbrella">✕</button>' +
+      '<div class="orgwrap"><div class="tree"><ul><li>' + parent + children + '</li></ul></div></div>' +
+      '<div class="um-chart"><div class="ctitle">Cost centers under '+(u.manager?esc(u.manager):'this manager')+'</div>'+umbChart(codes)+'</div>' +
+    '</section>';
+  }).join('') + '<div class="umaddcard" id="umAdd">＋ New umbrella</div>';
+
+  const grand = state.um.reduce((s,u)=>s+(u.centers||[]).filter(c=>umUniverse().includes(c)).reduce((a,c)=>a+centerTot(c),0),0);
+  document.getElementById('umTotal').textContent = fmtW(grand);
+  document.getElementById('umSub').textContent = '/mo under ' + state.um.length + ' umbrella' + (state.um.length!==1?'s':'') + ' · ' + unassigned.length + ' unassigned';
+}
+// create
+document.addEventListener('click', e=>{
+  const a=e.target.closest && e.target.closest('#umAdd');
+  if(a){ state.um.push({id:umId(), master:'', manager:'', centers:[]}); saveState(); renderUmbrella(); return; }
+  const d=e.target.closest && e.target.closest('.um-del');
+  if(d){ const u=state.um.find(x=>x.id===d.dataset.um);
+    if(u && confirm('Remove this umbrella? Its cost centers return to Unassigned.')){ state.um=state.um.filter(x=>x.id!==d.dataset.um); saveState(); renderUmbrella(); } return; }
+});
+// edit master / manager
+document.addEventListener('input', e=>{
+  const inp=e.target.closest && e.target.closest('.um-master, .um-mgr');
+  if(!inp) return;
+  const u=state.um.find(x=>x.id===inp.dataset.um); if(!u) return;
+  u[inp.dataset.f]=inp.value;
+  // live-update only the manager label in the chart title + totals, avoid full re-render (keeps focus)
+  if(inp.dataset.f==='manager'){ const sec=inp.closest('.umb'); const t=sec && sec.querySelector('.ctitle'); if(t) t.textContent='Cost centers under '+(inp.value?inp.value:'this manager'); }
+  clearTimeout(window.__umsave); window.__umsave=setTimeout(saveState, 400);
+});
+// drag center widgets between tray and umbrellas
+document.addEventListener('dragstart', e=>{
+  const w=e.target.closest && e.target.closest('.umw[data-center]');
+  if(!w) return;
+  e.dataTransfer.setData('text/plain','UMC:'+w.dataset.center);
+  e.dataTransfer.effectAllowed='move'; w.classList.add('dragging');
+});
+function umZone(e){ return e.target.closest && (e.target.closest('.umdrop[data-um]') || e.target.closest('#umTray')); }
+document.addEventListener('dragover', e=>{
+  const z=umZone(e); if(!z) return;
+  e.preventDefault(); e.dataTransfer.dropEffect='move';
+  document.querySelectorAll('.umdrop.dropping,#umTray.dropping').forEach(x=>{ if(x!==z) x.classList.remove('dropping'); });
+  z.classList.add('dropping');
+});
+document.addEventListener('dragleave', e=>{ const z=umZone(e); if(z && !z.contains(e.relatedTarget)) z.classList.remove('dropping'); });
+document.addEventListener('drop', e=>{
+  const z=umZone(e); if(!z) return;
+  const data=e.dataTransfer.getData('text/plain'); if(!data.startsWith('UMC:')) return;
+  e.preventDefault(); z.classList.remove('dropping');
+  const code=data.slice(4);
+  state.um.forEach(u=>{ u.centers=(u.centers||[]).filter(c=>c!==code); });   // one umbrella per center
+  if(z.classList.contains('umdrop')){ const u=state.um.find(x=>x.id===z.dataset.um); if(u){ u.centers=u.centers||[]; if(!u.centers.includes(code)) u.centers.push(code); } }
+  saveState(); renderUmbrella();
+});
+
+/* export */
+function stamp(){ return new Date().toISOString().slice(0,16).replace(':',''); }
+function csvEsc(v){ v = String(v==null?'':v); return /[",\n]/.test(v) ? '"'+v.replace(/"/g,'""')+'"' : v; }
+function visibleLines(){ return RAW.filter(l => !state.h.includes(l.id)); }
+// Tab 1: line detail (AED), only the requested columns
+function resourceName(l){
+  if(l.cat === 'Payroll') return '(contact TR for disclosure)';
+  return l.name;   // Systems vendor / Perdiem person / etc.
+}
+function detailAoA(){
+  const head = ['Category','Resource','Entity','Original cost center','New cost center','Cost center owner',
+                'Actual Jan–Aug (AED)','Monthly run rate (AED)','FY2026 proj (AED)','FY2027 proj (AED)'];
+  const rows = visibleLines().map(l => {
+    const c = cur(l);
+    // Original = untouched code (never the rename); New = current display name
+    return [l.cat, resourceName(l), l.entity,
+            (l.orig===GROUP?'Group':l.orig),
+            (c===GROUP?'Group':dn(c)),
+            (c===GROUP ? '' : (state.l[c]||'')),
+            Math.round(l.act||0), Math.round(l.mo), Math.round(l.fy), Math.round(l.mo*12)];
+  });
+  return [head, ...rows];
+}
+// Tab 2: pivot per cost center (+ Group), the same measures summed
+function pivotAoA(){
+  const head = ['Cost center','Owner','Lines','Actual Jan–Aug (AED)','Monthly run rate (AED)','FY2026 proj (AED)','FY2027 proj (AED)'];
+  const centers = allCenters().map(t => ({t, ls:linesOf(t).filter(l=>!state.h.includes(l.id)), grp:false}))
+    .sort((a,b)=>b.ls.reduce((s,l)=>s+l.mo,0)-a.ls.reduce((s,l)=>s+l.mo,0));
+  centers.push({t:GROUP, ls:linesOf(GROUP).filter(l=>!state.h.includes(l.id)), grp:true});
+  const rows=[]; let tA=0,tM=0,tF=0,tP=0,tL=0;
+  centers.forEach(r => {
+    const A=r.ls.reduce((s,l)=>s+(l.act||0),0), M=r.ls.reduce((s,l)=>s+l.mo,0),
+          F=r.ls.reduce((s,l)=>s+l.fy,0), P=M*12;
+    tA+=A;tM+=M;tF+=F;tP+=P;tL+=r.ls.length;
+    rows.push([r.grp?'Group costs':dn(r.t), r.grp?'':(state.l[r.t]||''), r.ls.length,
+               Math.round(A),Math.round(M),Math.round(F),Math.round(P)]);
+  });
+  rows.push(['TOTAL','',tL,Math.round(tA),Math.round(tM),Math.round(tF),Math.round(tP)]);
+  return [head, ...rows];
+}
+function growthAoA(){
+  const head = ['Spend group','Leader','Item','Monthly (AED)','Annual (AED)'];
+  const rows=[]; let tot=0;
+  state.gs.forEach(g => {
+    const gl = g.leader||'';
+    if(!(g.items||[]).length){ rows.push([g.name, gl, '(no items)', 0, 0]); return; }
+    g.items.forEach((it,idx)=>{
+      const amt=+it.amt||0; tot+=amt;
+      rows.push([idx===0?g.name:'', idx===0?gl:'', it.name, Math.round(amt), Math.round(amt*12)]);
+    });
+  });
+  rows.push(['TOTAL','','',Math.round(tot),Math.round(tot*12)]);
+  return [head, ...rows];
+}
+function exportXlsx(){
+  if(typeof XLSX === 'undefined'){ note('Excel library still loading — try again in a moment'); return; }
+  const wb = XLSX.utils.book_new();
+  const wsP = XLSX.utils.aoa_to_sheet(pivotAoA());
+  wsP['!cols'] = [{wch:26},{wch:14},{wch:7},{wch:20},{wch:20},{wch:18},{wch:18}];
+  XLSX.utils.book_append_sheet(wb, wsP, 'By cost center');
+  const wsD = XLSX.utils.aoa_to_sheet(detailAoA());
+  wsD['!cols'] = [{wch:14},{wch:30},{wch:14},{wch:18},{wch:18},{wch:16},{wch:18},{wch:18},{wch:16},{wch:16}];
+  XLSX.utils.book_append_sheet(wb, wsD, 'Line detail');
+  let tabs = 2;
+  if(state.gs.length){
+    const wsG = XLSX.utils.aoa_to_sheet(growthAoA());
+    wsG['!cols'] = [{wch:22},{wch:16},{wch:30},{wch:16},{wch:16}];
+    XLSX.utils.book_append_sheet(wb, wsG, 'Growth Spend');
+    tabs = 3;
+  }
+  XLSX.writeFile(wb, 'cost_ownership_'+stamp()+'.xlsx');
+  note('Excel exported · ' + tabs + ' tabs');
+}
+function buildJson(){
+  return JSON.stringify({
+    exported_at: new Date().toISOString(),
+    basis: 'run rate = average of non-zero June/July/August 2026 actuals, AED; data shown is Jan-Aug 2026 actuals only (no file forecast); Sep 2026-Dec 2027 projected flat at run rate; FY2026 = Jan-Aug actual + run rate x 4',
+    leaders: state.l,
+    renames: state.r,
+    people_added: state.p,
+    new_cost_centers: state.c,
+    hidden_lines: state.h,
+    growth_spend: state.gs,
+    umbrellas: state.um,
+    guidelines: state.gl || GL_DEFAULT,
+    moves: RAW.filter(l=>cur(l)!==l.home).map(l=>({id:l.id, line:l.src, from:l.home, to:cur(l)})),
+    lines: RAW.map(l=>({id:l.id, line:l.src, category:l.cat, entity:l.entity, original:l.home, current:cur(l), hidden:state.h.includes(l.id), monthly:l.mo, fy_2026:l.fy, fy_2027_projection:Math.round(l.mo*12)}))
+  }, null, 2);
+}
+async function saveFile(filename, text, mime){
+  try{
+    if(window.claude && window.claude.use){
+      const dl = await window.claude.use('downloads');
+      if(dl){ await dl.save({filename, data:text}); return; }
+    }
+  }catch(e){}
+  try{
+    const blob = new Blob([text], {type:mime});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 4000);
+    return;
+  }catch(e){}
+  showModal(filename, text);
+}
+document.getElementById('expXlsx').addEventListener('click', exportXlsx);
+document.getElementById('expJson').addEventListener('click', ()=> saveFile('cost_ownership_'+stamp()+'.json', buildJson(), 'application/json'));
+
+const modal = document.getElementById('modal');
+function showModal(title, text){
+  document.getElementById('mTitle').textContent = title;
+  document.getElementById('mText').value = text;
+  modal.classList.add('open');
+}
+function closeModal(){ modal.classList.remove('open'); }
+document.getElementById('mClose').addEventListener('click', closeModal);
+modal.addEventListener('click', e => { if(e.target===modal) closeModal(); });
+document.getElementById('mCopy').addEventListener('click', async () => {
+  const ta = document.getElementById('mText'); ta.select();
+  try{ await navigator.clipboard.writeText(ta.value); note('Copied'); }
+  catch(e){ document.execCommand && document.execCommand('copy'); }
+});
+
+/* reset */
+function applyCcyTags(){
+  document.querySelectorAll('.ccytag').forEach(el => el.textContent = CCY);
+  document.getElementById('ccyNow').textContent = CCY;
+}
+document.getElementById('ccyBtn').addEventListener('click', () => {
+  CCY = (CCY === 'AED') ? 'USD' : 'AED';
+  try{ localStorage.setItem(LS_KEY+'-ccy', CCY); }catch(e){}
+  applyCcyTags();
+  render();
+  note(CCY === 'USD' ? 'Showing USD @ 3.6725' : 'Showing AED');
+});
+
+document.getElementById('reset').addEventListener('click', () => {
+  if(!confirm('Reset the board to the file baseline? All moves, leaders, renames, hidden lines and new cost centers on this device will be cleared.')) return;
+  state = {a:{}, l:Object.assign({},DEFAULT_L), c:[], p:[], r:Object.assign({},DEFAULT_R), h:[], gs:[], gl:null, um:[]};
+  visSeries = null; openCl.clear();
+  try{ localStorage.removeItem(LS_KEY); }catch(e){}
+  note('Reset to baseline');
+  render();
+});
+
+/* boot */
+loadState();
+try{ const sc = localStorage.getItem(LS_KEY+'-ccy'); if(sc==='USD'||sc==='AED') CCY = sc; }catch(e){}
+applyCcyTags();
+render();
+renderGrowth();
+renderRules();
+renderUmbrella();
+if(!lsOk) note('Local save unavailable — use Export');
+else if(Object.keys(state.a).length || Object.keys(state.l).length || state.c.length || state.h.length) note('Restored saved board');
+</script>
+</body>
+</html>
