@@ -572,9 +572,10 @@ const CCOL = {'Payroll':'var(--c-pay)','Perdiem':'var(--c-per)','Systems':'var(-
 const CHEX = {'Payroll':'#FA5523','Perdiem':'#27405F','Systems':'#5B6672','Digital Marketing':'#1F6B4A','Professional':'#1A1F28','Miscellaneous':'#9AA3AE'};
 const ACTUAL_UPTO = 8;
 const HORIZON = 24;
-const LS_KEY = 'itcan-cost-board-LOCKED-2027-v1';
+const LS_KEY = 'itcan-cost-board-LOCKED-2027-v2';
 const DEFAULT_L = {"MOON": "Marah", "STR": "Haneen", "FIN": "Haseeb", "SDM": "Alex", "PAM": "Mansour", "INFPACT": "Amal", "KM": "Sam", "CPX": "Rasha", "TE": "Amr", "DMT": "Sam"};
-const DEFAULT_R = {"SDM": "Product", "MOON": "Creators Op", "PAM": "Merchant- CSM + BD", "INFPACT": "Creators Acq", "CPX": "CPX- (DMT+ MARS+ CPX)", "TE": "OPR (TD + TE + OPR)", "DMT": "Marketing (design))"};
+const DEFAULT_R = {"SDM": "Product", "MOON": "Creators Op", "PAM": "Merchant- CSM + BD", "INFPACT": "Creators Acq", "CPX": "CPX- (DMT+ MARS+ CPX)", "TE": "OPR (TD + TE + OPR)", "DMT": "Marketing (design))", "KM": "Business Enablement (KM)"};
+const DEFAULT_UM = [{"id":"Umv0wjow80","master":"","manager":"Haneen ","centers":["TE","FIN","STR","KM"]},{"id":"Umv0wk67z1","master":"","manager":"Rasha","centers":["CPX","DMT","INFPACT","MOON"]},{"id":"Umv0wkny32","master":"","manager":"Mansour ","centers":["PAM","SDM"]}];
 
 const PRESET_M = ['Alex','Haseeb','Arjun','Amr','Mansour','Nick','Wessam'];
 const PRESET_F = ['Rasha','Sam','Marah','Haneen','Snetha','Luluah','Roula','Amal'];
@@ -594,6 +595,7 @@ function loadState(){
   // always seed the locked baseline first
   state.l = Object.assign({}, DEFAULT_L);
   state.r = Object.assign({}, DEFAULT_R);
+  state.um = JSON.parse(JSON.stringify(DEFAULT_UM));
   try{
     const raw = localStorage.getItem(LS_KEY);
     if(raw){ const s = JSON.parse(raw);
@@ -1861,7 +1863,7 @@ document.getElementById('ccyBtn').addEventListener('click', () => {
 
 document.getElementById('reset').addEventListener('click', () => {
   if(!confirm('Reset the board to the file baseline? All moves, leaders, renames, hidden lines and new cost centers on this device will be cleared.')) return;
-  state = {a:{}, l:Object.assign({},DEFAULT_L), c:[], p:[], r:Object.assign({},DEFAULT_R), h:[], gs:[], gl:null, um:[]};
+  state = {a:{}, l:Object.assign({},DEFAULT_L), c:[], p:[], r:Object.assign({},DEFAULT_R), h:[], gs:[], gl:null, um:JSON.parse(JSON.stringify(DEFAULT_UM))};
   visSeries = null; openCl.clear();
   try{ localStorage.removeItem(LS_KEY); }catch(e){}
   note('Reset to baseline');
